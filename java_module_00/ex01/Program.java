@@ -2,6 +2,30 @@ import java.util.Scanner;
 
 public class Program
 {
+	static int	ftSqrt( int n )
+{
+	int	out;
+	// long	n;
+
+	// n = nb;
+	if (n <= 0)
+		return (0);
+	if (n == 1)
+		return (1);
+	out = 2;
+	if ( n >= 2 )
+	{
+		while ( ( out * out ) <= n )
+		{
+			if ( ( out * out ) == n )
+				break ;
+				// return (out);
+			out++;
+		}
+	}
+	return (0);
+}
+
 	static int isPrimeIter( int nb )
 	{
 		int	i;
@@ -9,6 +33,10 @@ public class Program
 		i = 2;
 		if ( nb < 2 )
 			return (0);
+
+		int r = ftSqrt( nb );
+		System.out.println( r );
+
 		while ( i <= ( nb / 2 ) )
 		{
 			if ( (nb % i) == 0 )
