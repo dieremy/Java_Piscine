@@ -3,25 +3,25 @@ import java.util.Scanner;
 public class Program
 {
 	static int	ftSqrt( int n )
-{
-	int	out;
-
-	if ( n <= 0 )
-		return (0);
-	if ( n == 1 )
-		return (1);
-	out = 2;
-	if ( n >= 2 )
 	{
-		while ( ( out * out ) <= n )
+		int	out;
+
+		if ( n <= 0 )
+			return (0);
+		if ( n == 1 )
+			return (1);
+		out = 2;
+		if ( n >= 2 )
 		{
-			if ( ( out * out ) == n )
-				break ;
-			out++;
+			while ( ( out * out ) <= n )
+			{
+				if ( ( out * out ) == n )
+					break ;
+				out++;
+			}
 		}
+		return (out);
 	}
-	return (out);
-}
 
 	static int isPrimeIter( int nb )
 	{
