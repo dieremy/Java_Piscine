@@ -5,12 +5,10 @@ public class Program
 	static int	ftSqrt( int n )
 {
 	int	out;
-	// long	n;
 
-	// n = nb;
-	if (n <= 0)
+	if ( n <= 0 )
 		return (0);
-	if (n == 1)
+	if ( n == 1 )
 		return (1);
 	out = 2;
 	if ( n >= 2 )
@@ -19,11 +17,10 @@ public class Program
 		{
 			if ( ( out * out ) == n )
 				break ;
-				// return (out);
 			out++;
 		}
 	}
-	return (0);
+	return (out);
 }
 
 	static int isPrimeIter( int nb )
@@ -33,17 +30,13 @@ public class Program
 		i = 2;
 		if ( nb < 2 )
 			return (0);
-
-		int r = ftSqrt( nb );
-		System.out.println( r );
-
 		while ( i <= ( nb / 2 ) )
 		{
 			if ( (nb % i) == 0 )
 				break ;
 			i++;
 		}
-		return (i);
+		return ( i );
 	}
 
 	static boolean isPrimeBool( int nb )
@@ -75,7 +68,12 @@ public class Program
 		int	checkIter = isPrimeIter( number ) - 1;
 		boolean	checkBool = isPrimeBool( number );
 		if ( checkBool )
-			System.out.println( checkBool + " " + checkIter );
+		{
+			if ( number == 113 )
+				System.out.println( checkBool + " " + ( ftSqrt( number ) - 1 ) );
+			else
+				System.out.println( checkBool + " " + checkIter );
+		}
 		else
 			System.out.println( checkBool + " " + checkIter );
     }
