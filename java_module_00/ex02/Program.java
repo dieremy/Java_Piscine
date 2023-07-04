@@ -18,18 +18,10 @@ public class Program
 		return ( true );
 	}
 
-	static int returnRemainder( int n )
-	{
-		return ( isPrimeBool( n % 10 ) ) ? n % 10 : 0 ;
-	}
-
-    public static void main(String[] args)
+	public static int Sum( int n )
     {
-		Scanner myObj = new Scanner( System.in );  // Create a Scanner object
-		int n = myObj.nextInt();  // Read user input
-
-        int r1 = 0;
-        int r2 = 0;
+        int r1;
+        int r2;
         int sum;
         int flag;
 
@@ -37,9 +29,9 @@ public class Program
         flag = 0;
         while ( n != 0 )
         {
-			r1 = returnRemainder( n );
+            r1 = n % 10;
             n /= 10;
-			r2 = returnRemainder( n );
+            r2 = n % 10;
             if ( flag == 0 )
             {
                 sum += r1 + r2;
@@ -48,6 +40,32 @@ public class Program
             else
                 sum += r2;
         }
-		System.out.println( "sum: " + sum );
+        return ( sum );
+    }
+
+	public static void checkExit( int n, int count )
+	{
+		if ( n == 42 )
+		{
+			System.out.println( "Count of coffe-request - " + count );
+			System.exit( -1 );
+		}
+	}
+
+    public static void main(String[] args)
+    {
+		Scanner myObj = new Scanner( System.in );  // Create a Scanner object
+		int	sum = 0;
+		int	count = 0;
+		int	n = 0;
+
+		while ( true )
+		{
+			n = myObj.nextInt();  // Read user input
+			sum = Sum( n );
+			checkExit( n, count );
+			if ( isPrimeBool( sum ) )
+				count++;
+		}
     }
 }
