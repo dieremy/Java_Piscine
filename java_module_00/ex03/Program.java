@@ -2,45 +2,67 @@ import java.util.Scanner;
 
 public class Program
 {
-	static int findMin( int A[] )
+	static long elevate( long n, int i )
 	{
-		int	min;
-		int	i;
+		long	dex = 1;
+		int		x = 0;
 
-		min = A[0];
-		i = -1;
-		while ( ++i < 5 )
-			if ( min > A[i] )
-				min = A[i];
+		while ( ++x < i )
+			dex *= 10;
+		n *= dex;
+		return ( n );
+	}
+
+	static long findMin()
+	{
+		Scanner myObj = new Scanner( System.in );  // Create a Scanner object
+		long min = myObj.nextInt();
+		long temp = 0;
+		int x = 0;
+
+		while ( ++x < 5 )
+		{
+			temp = myObj.nextInt();
+			if ( temp < min )
+				min = temp;
+		}
 		return ( min );
+	}
+
+	static void printChart( long res )
+	{
+		int j = 1;
+		while ( res > 0 )
+		{
+			System.out.print( "Week " + j + " ");
+			for ( long l = res % 10; l > 0; l-- )
+				System.out.print( "=" );
+			System.out.println( ">" );
+			res /= 10;
+			j++;
+		}
 	}
 
 	public static void main(String[] args)
 	{
 		Scanner myObj = new Scanner( System.in );  // Create a Scanner object
-		int A[] = new int[5];
-		int n = 0;
-		int check;
-		int i;
-		
-		while ( n < 5 )
+		String	week = myObj.nextLine();
+		long	min = 0;
+		long	res = 0;
+
+		while ( !week.equals("42") )
 		{
-			check = myObj.nextInt();
-			if ( check >= 1 && check <= 9 )
-				A[n] = check;
-			else
-				System.exit( -1 );
-			n++;
+			int		i = 0;
+			while ( ++i <= 18 )
+			{
+				if ( week.equals( "Week" + " " + i ) )
+				{
+					min = findMin();
+					res += elevate( min, i );
+				}
+			}
+			week = myObj.nextLine();
 		}
-
-		int min = findMin( A );
-
-		char[] level = new char[min];
-		int x = -1;
-		while ( ++x < min )
-			level[x] = '=';
-
-		String str = "";
-		System.out.println( "Week X " + str.copyValueOf( level, 0, min ) + ">" );
+		printChart( res );
 	}
 }
