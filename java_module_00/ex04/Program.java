@@ -1,11 +1,12 @@
-// import java.util.Scanner;
+import java.util.*;
 
-public class Program
-{
+public class Program {
     public static void main(String[] args) {
-        // Input text
-        String text = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAASSSSSSSSSSSSSSSSSSSSSSSSDDDDDDDDDDDDDDDD" +
-                      "DDDDDDDDDDDDDDDDWEWWKFKKDKKDSKAKLSLDKSKALLLLLLLLLLRTRTETWTWWWWWWWWWWOOOOOOOO42";
+        // Read input text
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the input text: ");
+        String text = scanner.nextLine();
+        scanner.close();
 
         // Count character occurrences
         int[] occurrences = countCharacterOccurrences(text);
@@ -18,8 +19,7 @@ public class Program
     }
 
     // Count character occurrences in the text
-    static int[] countCharacterOccurrences(String text)
-    {
+    private static int[] countCharacterOccurrences(String text) {
         int[] occurrences = new int[65536]; // Assuming Unicode BMP
         char[] chars = text.toCharArray();
         for (int i = 0; i < text.length(); i++) {
@@ -29,47 +29,43 @@ public class Program
     }
 
     // Sort characters by occurrence count and lexicographic order
-    static char[] sortCharactersByOccurrences(int[] occurrences)
-    {
+    private static char[] sortCharactersByOccurrences(int[] occurrences) {
         char[] characters = new char[65536]; // Assuming Unicode BMP
-        for (char c = 0; c < 65536; c++)
-        {
+        for (char c = 0; c < 65536; c++) {
             characters[c] = c;
         }
 
-        for (int i = 0; i < characters.length; i++)
-        {
-            for (int j = i + 1; j < characters.length; j++)
-            {
-                if (occurrences[characters[j]] > occurrences[characters[i]]
-                    || (occurrences[characters[j]] == occurrences[characters[i]] && characters[j] < characters[i]))
-                {
-                char temp = characters[i];
-                characters[i] = characters[j];
-                characters[j] = temp;
+        for (int i = 0; i < characters.length - 1; i++) {
+            int maxIndex = i;
+            for (int j = i + 1; j < characters.length; j++) {
+                if (occurrences[characters[j]] > occurrences[characters[maxIndex]] ||
+                        (occurrences[characters[j]] == occurrences[characters[maxIndex]] &&
+                                characters[j] < characters[maxIndex])) {
+                    maxIndex = j;
                 }
             }
+
+            // Swap characters
+            char temp = characters[i];
+            characters[i] = characters[maxIndex];
+            characters[maxIndex] = temp;
         }
 
         return characters;
     }
 
     // Display histogram
-    static void displayHistogram(char[] characters, int[] occurrences)
-    {
+    private static void displayHistogram(char[] characters, int[] occurrences) {
         int maxOccurrences = findMaxOccurrences(occurrences);
+        int scaleFactor = (maxOccurrences + 9) / 10; // Scale factor for proportional display
 
-        for (int i = maxOccurrences; i > 0; i--)
-        {
-            for (int j = 0; j < characters.length; j++)
-            {
+        for (int i = 10; i > 0; i--) {
+            for (int j = 0; j < characters.length; j++) {
                 int count = occurrences[characters[j]];
-                if (count >= i)
-                {
+                int scaledCount = (count + scaleFactor - 1) / scaleFactor;
+                if (scaledCount >= i) {
                     System.out.print("# ");
-                }
-                else
-                {
+                } else {
                     System.out.print("  ");
                 }
             }
@@ -77,27 +73,23 @@ public class Program
         }
 
         // Print character labels
-        for (char c : characters)
-        {
+        for (char c : characters) {
             System.out.print(c + " ");
         }
-        System.out.println();
     }
 
-    // Find the maximum occurrence count
-    static int findMaxOccurrences(int[] occurrences)
-    {
-        int maxOccurrences = 0;
-        for (int count : occurrences)
-        {
-            if (count > maxOccurrences)
-            {
-                maxOccurrences = count;
+    // Find the maximum number of occurrences
+    private static int findMaxOccurrences(int[] occurrences) {
+        int max = 0;
+        for (int count : occurrences) {
+            if (count > max) {
+                max = count;
             }
         }
-        return maxOccurrences;
+        return max;
     }
 }
+
 
 
 // public class Program
