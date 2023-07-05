@@ -33,16 +33,14 @@ public class Program
         return ( max );
     }
 
-    static void printCicle( int i, int count, int max )
+    static void printCicle( int i, int count, int max, char c )
     {
         int n = percentVal( max, count );
-        int index = i + 65;
-        char elem = ( char )index;
 
         System.out.println( count );
         for ( int x = 0; x < n; x++ )
-            System.out.println( "#" );    
-        System.out.println( elem );    
+            System.out.println( "#" );
+        System.out.println( c );    
     }
     
     public static void main( String[] args )
@@ -51,19 +49,37 @@ public class Program
         String  line = myObj.nextLine();
         char[]  ch = line.toCharArray();
         // int[][]   alpha = {{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } , { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }};
+        int[]     alpha = new int[65535];
         int     index;
         int     count = 0;
         int     maxCount = 0;
         int     i = 0;
+        char    c = 0;
         
         for ( int j = 0; j < ch.length; j++ )
         {   
             i = ch[j] - 'a';
+            c = ch[j];
+            alpha[c]++;
             count = cicleStr( ch, i, j );
             maxCount = cicleToFindMax( count );
+            boolean flag = true; 
             // System.out.println( " i: " + i + " c[j]: " + ch[j] + " j: " + j + " cnt: " + count + " max: " + whatCount );
+            if ( flag )
+            {
+                if ( count > 1 )
+                    flag = false;
+                printCicle( i, maxCount, count, c );
+            }
+            System.out.print( "\n" );
+
         }
-        printCicle( i, maxCount, count );
+
+        // for ( int x = 0; i < alpha.length; i++ )
+        // {
+        //     System.out.print( alpha[c] );
+        // }
+
     }
 }
     // static int checkRepetition( char[] ch )
