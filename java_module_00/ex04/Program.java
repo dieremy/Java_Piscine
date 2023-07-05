@@ -1,56 +1,48 @@
-import java.util.*;
+import java.util.Scanner;
 
 public class Program {
-    public static void main(String[] args) {
-        // Read input text
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter the input text: ");
-        String text = scanner.nextLine();
-        scanner.close();
-
-        // Count character occurrences
-        int[] occurrences = countCharacterOccurrences(text);
-
-        // Sort characters by occurrence count and lexicographic order
-        char[] characters = sortCharactersByOccurrences(occurrences);
-
-        // Display histogram
-        displayHistogram(characters, occurrences);
-    }
 
     // Count character occurrences in the text
     private static int[] countCharacterOccurrences(String text) {
         int[] occurrences = new int[65536]; // Assuming Unicode BMP
         char[] chars = text.toCharArray();
-        for (int i = 0; i < text.length(); i++) {
-            occurrences[chars[i]]++;
+        for (int i = 0; i < chars.length; i++) {
+            char c = chars[i];
+            occurrences[c]++;
         }
         return occurrences;
     }
 
     // Sort characters by occurrence count and lexicographic order
     private static char[] sortCharactersByOccurrences(int[] occurrences) {
-        char[] characters = new char[65536]; // Assuming Unicode BMP
-        for (char c = 0; c < 65536; c++) {
-            characters[c] = c;
+        int index = 0;
+        for (int count : occurrences)
+        {
+            if (count > 0)
+                index++;
         }
 
-        for (int i = 0; i < characters.length - 1; i++) {
-            int maxIndex = i;
-            for (int j = i + 1; j < characters.length; j++) {
-                if (occurrences[characters[j]] > occurrences[characters[maxIndex]] ||
-                        (occurrences[characters[j]] == occurrences[characters[maxIndex]] &&
-                                characters[j] < characters[maxIndex])) {
-                    maxIndex = j;
+        char[] characters = new char[index]; // Assuming Unicode BMP
+        int x = 0;
+        for ( char i = 0; i < occurrences.length; i++ ) {
+            if ( occurrences[i] > 0 )
+                characters[x++] = i;
+        }
+        // System.out.print( "dioporco2" );
+
+        for (int i = 0; i < index - 1; i++) {
+            for (int j = 0; j < index - i - 1; j++) {
+                if (occurrences[characters[j]] < occurrences[characters[j + 1]] ||
+                        (occurrences[characters[j]] == occurrences[characters[j + 1]] &&
+                                characters[j] > characters[j + 1])) {
+                    // Swap characters
+                    char temp = characters[j];
+                    characters[j] = characters[j + 1];
+                    characters[j + 1] = temp;
                 }
             }
 
-            // Swap characters
-            char temp = characters[i];
-            characters[i] = characters[maxIndex];
-            characters[maxIndex] = temp;
         }
-
         return characters;
     }
 
@@ -87,6 +79,25 @@ public class Program {
             }
         }
         return max;
+    }
+
+    public static void main(String[] args) {
+        // Read input text
+        Scanner scanner = new Scanner(System.in);
+        // System.out.print("Enter the input text: ");
+        String text = scanner.nextLine();
+        // scanner.close();
+
+
+        // Count character occurrences
+        int[] occurrences = countCharacterOccurrences(text);
+
+        // Sort characters by occurrence count and lexicographic order
+        char[] characters = sortCharactersByOccurrences(occurrences);
+        System.out.print( "dioporco" );
+
+        // Display histogram
+        displayHistogram(characters, occurrences);
     }
 }
 
