@@ -13,16 +13,26 @@ public class Program
 		return ( n );
 	}
 
-	static long findMin()
+	static void	checkTest( long n )
 	{
-		Scanner myObj = new Scanner( System.in );  // Create a Scanner object
-		long min = myObj.nextInt();
-		long temp = 0;
-		int x = 0;
+		if ( n < 1 || n > 9 )
+		{
+			System.err.println( "IllegalArgument" );
+			System.exit( -1 );
+		}
+	}
+
+	static long findMin( Scanner scan )
+	{
+		long	min = scan.nextLong();
+		checkTest( min );
+		long	temp = 0;
+		int		x = 0;
 
 		while ( ++x < 5 )
 		{
-			temp = myObj.nextInt();
+			temp = scan.nextLong();
+			checkTest( temp );
 			if ( temp < min )
 				min = temp;
 		}
@@ -32,6 +42,7 @@ public class Program
 	static void printChart( long res )
 	{
 		int j = 1;
+
 		while ( res > 0 )
 		{
 			System.out.print( "Week " + j + " ");
@@ -43,25 +54,25 @@ public class Program
 		}
 	}
 
-	public static void main(String[] args)
+	public static void main( String[] args )
 	{
-		Scanner myObj = new Scanner( System.in );  // Create a Scanner object
-		String	week = myObj.nextLine();
+		Scanner scan = new Scanner( System.in );
+		String	week = scan.nextLine();
 		long	min = 0;
 		long	res = 0;
 
 		while ( !week.equals("42") )
 		{
-			int		i = 0;
+			int	i = 0;
 			while ( ++i <= 18 )
 			{
-				if ( week.equals( "Week" + " " + i ) )
+				if ( week.equals( "Week " + i ) )
 				{
-					min = findMin();
+					min = findMin( scan );
 					res += elevate( min, i );
 				}
 			}
-			week = myObj.nextLine();
+			week = scan.nextLine();
 		}
 		printChart( res );
 	}
