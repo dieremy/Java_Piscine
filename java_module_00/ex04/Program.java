@@ -20,14 +20,13 @@ public class Program
 
     static void sortByPrevalence( char[] chars, int[] occurrences )
     {
-        int i = -1;
-        while ( ++i < chars.length - 1 )
+        for ( int i = 0; i < chars.length - 1; i++ )
         {
-            int j = i + 1;
-            while ( ++j < chars.length )
+            for ( int j = i + 1; j < chars.length; j++ )
             {
                 int iterI = occurrences[chars[i]];
                 int iterJ = occurrences[chars[j]];
+                
                 if ( iterI < iterJ || ( iterI == iterJ && chars[i] > chars[j] ) )
                 {
                     char temp = chars[i];
@@ -38,10 +37,10 @@ public class Program
         }
     }
 
-    private static void displayChart( char[] characters, int[] occurrences, int charIndex )
+    static void displayChart( char[] characters, int[] occurrences, int charIndex )
     {
         int maxOccurrences = occurrences[characters[0]];
-        int scaleFactor = ( maxOccurrences + 9 ) / 10; // Scale factor for proportional display
+        int scaleFactor = ( maxOccurrences + 9 ) / 10;
 
         for (int i = 11; i > 0; i--)
         {
