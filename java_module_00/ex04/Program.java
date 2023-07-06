@@ -52,9 +52,9 @@ public class Program
         }
         System.out.println();
 
-        for (int i = 10; i > 0; i--)
+        for ( int i = 10; i > 0; i-- )
         {
-            for (int j = 0; j < charIndex; j++)
+            for ( int j = 0; j < charIndex; j++ )
             {
                 int count = occurrences[characters[j]];
                 int scaledCount = ( count + scaleFactor - 1 ) / scaleFactor;
@@ -74,7 +74,7 @@ public class Program
             System.out.println();
         }
 
-        for (int j = 0; j < charIndex; j++)
+        for ( int j = 0; j < charIndex; j++ )
             System.out.print( characters[j] + " " );
         System.out.println(); 
     }
@@ -91,7 +91,7 @@ public class Program
         int i = -1;
         while ( ++i < occurrences.length )
         {
-            if (occurrences[i] > 0)
+            if ( occurrences[i] > 0 )
             {
                 chars[charIndex] = (char) i;
                 charIndex++;
