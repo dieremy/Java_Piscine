@@ -42,9 +42,9 @@ public class Program
         int maxOccurrences = occurrences[characters[0]];
         int scaleFactor = ( maxOccurrences + 9 ) / 10;
 
-        for (int i = 11; i > 0; i--)
+        for ( int i = 11; i > 0; i-- )
         {
-            for (int j = 0; j < charIndex; j++)
+            for ( int j = 0; j < charIndex; j++ )
             {
                 int count = occurrences[characters[j]];
                 int scaledCount = ( count + scaleFactor - 1 ) / scaleFactor;
@@ -58,7 +58,7 @@ public class Program
             System.out.println();
         }
 
-        for (int j = 0; j < charIndex; j++)
+        for ( int j = 0; j < charIndex; j++ )
             System.out.print( characters[j] + " " );
         System.out.println(); 
     }
@@ -77,7 +77,7 @@ public class Program
         {
             if (occurrences[i] > 0)
             {
-                chars[charIndex] = (char) i;
+                chars[charIndex] = (char)i;
                 charIndex++;
             }
         }
