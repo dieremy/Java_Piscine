@@ -1,99 +1,105 @@
 import java.util.Scanner;
 
-public class Program {
+public class Program
+{
 
-    // Count character occurrences in the text
-    private static int[] countCharacterOccurrences(String text) {
-        int[] occurrences = new int[65536]; // Assuming Unicode BMP
+    static int[] countCharOccurrences( String text )
+    {
+        int[] occurrences = new int[65536];
         char[] chars = text.toCharArray();
 
-        for (int i = 0; i < text.length(); i++) {
+        int i = -1;
+        while ( ++i < chars.length )
+        {
             char c = chars[i];
             occurrences[c]++;
         }
         
-        return occurrences;
+        return ( occurrences );
     }
 
-    // Sort characters by occurrence count and lexicographic order
-    private static void sortCharactersByOccurrences(char[] characters, int[] occurrences) {
-        for (int i = 0; i < characters.length - 1; i++) {
-            for (int j = 0; j < characters.length - i - 1; j++) {
-                if (occurrences[characters[j]] < occurrences[characters[j + 1]] ||
-                        (occurrences[characters[j]] == occurrences[characters[j + 1]] &&
-                                characters[j] > characters[j + 1])) {
-                    // Swap characters
-                    char temp = characters[j];
-                    characters[j] = characters[j + 1];
-                    characters[j + 1] = temp;
+    static void sortByPrevalence( char[] chars, int[] occurrences )
+    {
+        int i = -1;
+        while ( ++i < chars.length - 1 )
+        {
+            int j = i + 1;
+            while ( ++j < chars.length )
+            {
+                int iterI = occurrences[chars[i]];
+                int iterJ = occurrences[chars[j]];
+                if ( iterI < iterJ || ( iterI == iterJ && chars[i] > chars[j] ) )
+                {
+                    char temp = chars[i];
+                    chars[i] = chars[j];
+                    chars[j] = temp;
                 }
             }
         }
     }
 
-    // Display histogram with the top 10 most frequent characters
-    private static void displayHistogram(char[] characters, int[] occurrences, int charIndex) {
-        // Display only the top 10 most frequent characters
+    private static void displayChart( char[] characters, int[] occurrences, int charIndex )
+    {
         int maxOccurrences = occurrences[characters[0]];
-        int scaleFactor = (maxOccurrences + 9) / 10; // Scale factor for proportional display
+        int scaleFactor = ( maxOccurrences + 9 ) / 10; // Scale factor for proportional display
 
 
-        // for ( int c = 0; c < occurrences.length; c++ )
-        // {
-        //     if ( c == 10 || c == charIndex )
-        //         break ;
-        //     System.out.print( occurrences[characters[c]] + " " );
-        // }
 
-        for (int i = 10; i > 0; i--) {
-            for (int j = 0; j < 10; j++) {
-                if (j < characters.length) {
-                    int count = occurrences[characters[j]];
-                    int scaledCount = (count + scaleFactor - 1) / scaleFactor;
-                    if (scaledCount >= i) {
-                    if ( j == 10 || j == charIndex )
-                        break ;
-                    System.out.println( count );
-                        System.out.print("# ");
-                    } else {
-                        System.out.print("  ");
-                    }
-                }
+        for ( int c = 0; c < charIndex; c++ )
+        {
+            int count = occurrences[characters[c]];
+            System.out.print( " " + count );
+        }
+        System.out.println();
+
+        for (int i = 10; i > 0; i--)
+        {
+            for (int j = 0; j < charIndex; j++)
+            {
+                int count = occurrences[characters[j]];
+                int scaledCount = ( count + scaleFactor - 1 ) / scaleFactor;
+                // int scaledCount = ( count * 10 ) / maxOccurrences;
+                // System.out.println("scaled " + scaledCount + " i: " + i);
+                // if (scaledCount == i) {
+                //     if ( j == i )
+                //         System.out.println(count + " ");
+                //     else 
+                //         System.out.print(" ");
+                // }
+                if ( scaledCount >= i )
+                    System.out.print( "# " );
+                else
+                    System.out.print( "  "  );
             }
             System.out.println();
         }
 
-        // Print character labels
-        for (int j = 0; j < 10; j++) {
-            if (j < characters.length) {
-                System.out.print(characters[j] + " ");
-            }
-        }
+        for (int j = 0; j < charIndex; j++)
+            System.out.print( characters[j] + " " );
+        System.out.println(); 
     }
 
-    public static void main(String[] args) {
-        // Read input text
+    public static void main(String[] args)
+    {
         Scanner scanner = new Scanner(System.in);
         String text = scanner.nextLine();
-        scanner.close();
 
-        // Count character occurrences
-        int[] occurrences = countCharacterOccurrences(text);
+        int[] occurrences = countCharOccurrences( text );
 
-        // Create an array to hold all possible characters
-        char[] characters = new char[65536];
+        char[] chars = new char[65536];
         int charIndex = 0;
-        for (int i = 0; i < occurrences.length; i++) {
-            if (occurrences[i] > 0) {
-                characters[charIndex] = (char) i;
+        int i = -1;
+        while ( ++i < occurrences.length )
+        {
+            if (occurrences[i] > 0)
+            {
+                chars[charIndex] = (char) i;
                 charIndex++;
             }
         }
         
-        // Sort characters by occurrence count
-        sortCharactersByOccurrences(characters, occurrences);
+        sortByPrevalence( chars, occurrences );
 
-        // Display histogram
-        displayHistogram( characters, occurrences, charIndex );
+        displayChart( chars, occurrences, charIndex );
     }
 }
