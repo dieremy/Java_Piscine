@@ -6,10 +6,12 @@ public class Program {
     private static int[] countCharacterOccurrences(String text) {
         int[] occurrences = new int[65536]; // Assuming Unicode BMP
         char[] chars = text.toCharArray();
+
         for (int i = 0; i < text.length(); i++) {
             char c = chars[i];
             occurrences[c]++;
         }
+        
         return occurrences;
     }
 
@@ -30,10 +32,18 @@ public class Program {
     }
 
     // Display histogram with the top 10 most frequent characters
-    private static void displayHistogram(char[] characters, int[] occurrences) {
+    private static void displayHistogram(char[] characters, int[] occurrences, int charIndex) {
         // Display only the top 10 most frequent characters
         int maxOccurrences = occurrences[characters[0]];
         int scaleFactor = (maxOccurrences + 9) / 10; // Scale factor for proportional display
+
+
+        // for ( int c = 0; c < occurrences.length; c++ )
+        // {
+        //     if ( c == 10 || c == charIndex )
+        //         break ;
+        //     System.out.print( occurrences[characters[c]] + " " );
+        // }
 
         for (int i = 10; i > 0; i--) {
             for (int j = 0; j < 10; j++) {
@@ -41,6 +51,9 @@ public class Program {
                     int count = occurrences[characters[j]];
                     int scaledCount = (count + scaleFactor - 1) / scaleFactor;
                     if (scaledCount >= i) {
+                    if ( j == 10 || j == charIndex )
+                        break ;
+                    System.out.println( count );
                         System.out.print("# ");
                     } else {
                         System.out.print("  ");
@@ -76,11 +89,11 @@ public class Program {
                 charIndex++;
             }
         }
-
+        
         // Sort characters by occurrence count
         sortCharactersByOccurrences(characters, occurrences);
 
         // Display histogram
-        displayHistogram(characters, occurrences);
+        displayHistogram( characters, occurrences, charIndex );
     }
 }
