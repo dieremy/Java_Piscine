@@ -43,38 +43,27 @@ public class Program
         int maxOccurrences = occurrences[characters[0]];
         int scaleFactor = ( maxOccurrences + 9 ) / 10; // Scale factor for proportional display
 
-
-
-        for ( int c = 0; c < charIndex; c++ )
+        for (int i = 10; i > 0; i--)
         {
-            int count = occurrences[characters[c]];
-            System.out.print( " " + count );
-        }
-        System.out.println();
-
-        for ( int i = 10; i > 0; i-- )
-        {
-            for ( int j = 0; j < charIndex; j++ )
+            for (int j = 0; j < charIndex; j++)
             {
                 int count = occurrences[characters[j]];
                 int scaledCount = ( count + scaleFactor - 1 ) / scaleFactor;
-                // int scaledCount = ( count * 10 ) / maxOccurrences;
-                // System.out.println("scaled " + scaledCount + " i: " + i);
-                // if (scaledCount == i) {
-                //     if ( j == i )
-                //         System.out.println(count + " ");
-                //     else 
-                //         System.out.print(" ");
-                // }
                 if ( scaledCount >= i )
-                    System.out.print( "# " );
+                {
+                    if ( i == scaledCount )
+                        System.out.print( scaledCount + " " );
+                    else
+                        System.out.print( "# " );
+                }
                 else
-                    System.out.print( "  "  );
+                    System.out.print( "  " );
             }
             System.out.println();
         }
 
-        for ( int j = 0; j < charIndex; j++ )
+        System.out.println(); 
+        for (int j = 0; j < charIndex; j++)
             System.out.print( characters[j] + " " );
         System.out.println(); 
     }
@@ -91,7 +80,7 @@ public class Program
         int i = -1;
         while ( ++i < occurrences.length )
         {
-            if ( occurrences[i] > 0 )
+            if (occurrences[i] > 0)
             {
                 chars[charIndex] = (char) i;
                 charIndex++;
