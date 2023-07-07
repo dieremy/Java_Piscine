@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class Program
 {
 
-    static int[] countCharOccurrences( String text )
+    static int[] countCharFrequence( String text )
     {
         int[] occurrences = new int[65536];
         char[] chars = text.toCharArray();
@@ -37,28 +37,48 @@ public class Program
         }
     }
 
+    static int proportion( int max, int count )
+    {
+        return ( ( count * 10 ) / max );
+    }
+
+    static boolean checkToPrint( int charIndex, int i, int j, int count, int maxOccurrences, boolean f )
+    {
+        int scaledCount = count;
+        if ( j == charIndex )
+            return ( false );
+        if ( f )
+            scaledCount = proportion( maxOccurrences, count );
+        if ( i == scaledCount + 1 )
+            System.out.print( count + " " );
+        else if ( scaledCount >= i )
+            System.out.print( "# " );
+        else
+            System.out.print( "  " );
+        return ( true );
+    }
+
     static void displayChart( char[] characters, int[] occurrences, int charIndex )
     {
         int maxOccurrences = occurrences[characters[0]];
-        int scaleFactor = ( maxOccurrences + 9 ) / 10;
+        boolean flag = false;
+        if ( maxOccurrences > 10 )
+            flag = true;
 
+        int scaledCount = 0;
+        System.out.println();
         for ( int i = 11; i > 0; i-- )
         {
-            for ( int j = 0; j < charIndex; j++ )
+            for ( int j = 0; j < 10; j++ )
             {
                 int count = occurrences[characters[j]];
-                int scaledCount = ( count + scaleFactor - 1 ) / scaleFactor;
-                if ( i == scaledCount + 1 )
-                    System.out.print( scaledCount + " " );
-                else if ( scaledCount >= i )
-                    System.out.print( "# " );
-                else
-                    System.out.print( "  " );
+                if ( !checkToPrint( charIndex, i, j, count, maxOccurrences, flag ) )
+                    break ;
             }
             System.out.println();
         }
 
-        for ( int j = 0; j < charIndex; j++ )
+        for ( int j = 0; j < 10; j++ )
             System.out.print( characters[j] + " " );
         System.out.println(); 
     }
@@ -68,7 +88,7 @@ public class Program
         Scanner scanner = new Scanner(System.in);
         String text = scanner.nextLine();
 
-        int[] occurrences = countCharOccurrences( text );
+        int[] occurrences = countCharFrequence( text );
 
         char[] chars = new char[65536];
         int charIndex = 0;
