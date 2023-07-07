@@ -75,7 +75,7 @@ public class Program
         int i = -1;
         while ( ++i < occurrences.length )
         {
-            if (occurrences[i] > 0)
+            if ( occurrences[i] > 0 )
             {
                 chars[charIndex] = (char)i;
                 charIndex++;
