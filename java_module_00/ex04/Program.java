@@ -33,7 +33,6 @@ public class Program
         return ( chars );
     }
 
-
     static void sortByPrevalence( char[] chars, int[] occurrences )
     {
         for ( int i = 0; i < chars.length - 1; i++ )
@@ -99,9 +98,9 @@ public class Program
         System.out.println(); 
     }
 
-    public static void main(String[] args)
+    public static void main( String[] args )
     {
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner( System.in );
         String text = scanner.nextLine();
 
         int[] occurrences = countCharFrequence( text );
