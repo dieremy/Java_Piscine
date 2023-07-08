@@ -2,7 +2,6 @@ import java.util.Scanner;
 
 public class Program
 {
-
     static int[] countCharFrequence( String text )
     {
         int[] occurrences = new int[65536];
@@ -17,6 +16,23 @@ public class Program
         
         return ( occurrences );
     }
+
+    static char[] returnListOfChars( int[] occurrences )
+    {
+        char[] chars = new char[65536];
+        int charIndex = 0;
+        int i = -1;
+        while ( ++i < occurrences.length )
+        {
+            if ( occurrences[i] > 0 )
+            {
+                chars[charIndex] = (char)i;
+                charIndex++;
+            }
+        }
+        return ( chars );
+    }
+
 
     static void sortByPrevalence( char[] chars, int[] occurrences )
     {
@@ -42,10 +58,10 @@ public class Program
         return ( ( count * 10 ) / max );
     }
 
-    static boolean checkToPrint( int charIndex, int i, int j, int count, int maxOccurrences, boolean f )
+    static boolean checkToPrint( int i, int count, int maxOccurrences, boolean f )
     {
         int scaledCount = count;
-        if ( j == charIndex )
+        if ( scaledCount == 0 )
             return ( false );
         if ( f )
             scaledCount = proportion( maxOccurrences, count );
@@ -58,7 +74,7 @@ public class Program
         return ( true );
     }
 
-    static void displayChart( char[] characters, int[] occurrences, int charIndex )
+    static void displayChart( char[] characters, int[] occurrences )
     {
         int maxOccurrences = occurrences[characters[0]];
         boolean flag = false;
@@ -72,7 +88,7 @@ public class Program
             for ( int j = 0; j < 10; j++ )
             {
                 int count = occurrences[characters[j]];
-                if ( !checkToPrint( charIndex, i, j, count, maxOccurrences, flag ) )
+                if ( !checkToPrint( i, count, maxOccurrences, flag ) )
                     break ;
             }
             System.out.println();
@@ -90,20 +106,10 @@ public class Program
 
         int[] occurrences = countCharFrequence( text );
 
-        char[] chars = new char[65536];
-        int charIndex = 0;
-        int i = -1;
-        while ( ++i < occurrences.length )
-        {
-            if ( occurrences[i] > 0 )
-            {
-                chars[charIndex] = (char)i;
-                charIndex++;
-            }
-        }
+        char[] chars = returnListOfChars( occurrences );
         
         sortByPrevalence( chars, occurrences );
 
-        displayChart( chars, occurrences, charIndex );
+        displayChart( chars, occurrences );
     }
 }
