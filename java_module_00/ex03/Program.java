@@ -57,23 +57,25 @@ public class Program
 	public static void main( String[] args )
 	{
 		Scanner scan = new Scanner( System.in );
-		String	week = scan.nextLine();
+		String	week = scan.next();
 		long	min = 0;
 		long	res = 0;
-
-		while ( !week.equals("42") )
+		int		w = 1;
+		
+		while ( !week.equals( "42" ) && w <= 18)
 		{
-			int	i = 0;
-			while ( ++i <= 18 )
+            int inputWeek = scan.nextInt();
+            if ( !week.equals( "Week" ) || inputWeek != w )
 			{
-				if ( week.equals( "Week " + i ) )
-				{
-					min = findMin( scan );
-					res += elevate( min, i );
-				}
-			}
-			week = scan.nextLine();
-		}
+                System.err.println( "IllegalArgument" );
+                System.exit(-1);
+            }
+            min = findMin( scan );
+			res += elevate( min, w );
+            scan.nextLine();
+            week = scan.next();
+            w++;
+        }
 		printChart( res );
 	}
 }
