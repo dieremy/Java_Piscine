@@ -24,16 +24,16 @@ public class UserArrayList implements UserList
 	public User	getUserById( int id )
 	{
 		for ( int i = 0; i < this.numUser; i++ )
-			if ( id == user[i].getIdentifier() )
+			if ( i == user[i].getIdentifier() )
 				return ( user[i] );
-		throw new UserNotFoundException( "User with ID " + id + " not found" );
+		throw new UserNotFoundException("User with ID " + id + " not found");
 	}
 
 	public User	getUserByIndex( int index )
 	{
-		if ( index < this.numUser && index >= 0 )
+		if ( index < this.numUser && Index >= 0 )
             return users[index];
-        throw new UserNotFoundException( "User with index " + index + " not found" );
+        throw new UserNotFoundException("User with index " + index + " not found");
 	}
 
 	public int		getUserNum()
