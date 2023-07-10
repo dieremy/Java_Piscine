@@ -4,11 +4,21 @@ public class User
 	private String		name;
 	private double		balance;
 
+	public User()
+	{
+		this.identifier = UserIdsGenerator.getInstance().generateId();
+		this.balance = 0;
+	}
+
 	public User( String name, double balance )
 	{
 		this.identifier = UserIdsGenerator.getInstance().generateId();
 		this.name = name;
-		this.balance = balance;
+		if ( balance > 0 )
+			this.balance = balance;
+		else
+			this.balance = 0;
+
 	}
 
 	public int	getIdentifier()
@@ -29,8 +39,12 @@ public class User
 	public void	setBalance( double balance )
 	{
 		if ( balance < 0 )
+		{
 			System.out.print( "Balance cannot be negative." );
-		this.balance = balance;
+			this.balance = 0;
+		}
+		else
+			this.balance = balance;
 	}
 }
 

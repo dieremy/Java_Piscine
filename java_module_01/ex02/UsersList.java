@@ -1,4 +1,4 @@
-public interface UserList
+public interface UsersList
 {
 	void	addUser( User New );
 	User	getUserById( int Id );

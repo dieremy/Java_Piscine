@@ -2,13 +2,40 @@ public class Program
 {
 	public static void main( String[] args )
 	{
-		User[] users = new User[5];
-		for ( int i = 0; i < 5; i++ )
-			users[i] = new User();
+		User[] users = new User[25];
+		for ( int i = 0; i < 25; i++ )
+			users[i] = new User( ( "User" + ( i + 1 ) ), ( i * 1000 ) );
 
 		UsersArrayList userList = new UsersArrayList();
-		for ( int i = 0; i < 5; i++ )
+		for ( int i = 0; i < 25; i++ )
 			userList.addUser( users[i] );
+		userList.printInfo();
+
+		User user10 = userList.getUserById( 10 );
+		User user11 = userList.getUserByIndex( 10 );
+		System.out.print( "User ID (10): " );
+		System.out.println( user10 );
+		System.out.print( "User INDEX (10): " );
+		System.out.println( user11 );
+
+		try
+		{
+			User user30 = userList.getUserById( 30 ); 
+		}
+		catch ( UserNotFoundException ex )
+		{
+			System.out.println( ex );
+		}
+
+		try
+		{
+			User user1678 = userList.getUserByIndex( 1678 ); 
+			System.out.print( "hello try" );
+		}
+		catch ( UserNotFoundException ex )
+		{
+			System.out.println( ex );
+		}
 	}
 }
 
