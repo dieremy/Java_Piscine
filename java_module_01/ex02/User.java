@@ -54,6 +54,10 @@ public class User
 	}
 }
 
+
+// @Override annotation is used to indicate the intention
+// to override a method from the superclass (  )
+
 // 'final' keyword in this case is used like a const
 // in C/C++, so that identifier variable cannot change his
 // value providing read-only access

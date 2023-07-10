@@ -3,12 +3,28 @@ public class User
 	private final int	identifier;
 	private String		name;
 	private double		balance;
+	private TransactionsLinkedList transactionsList;
+
+	public User()
+	{
+		this.identifier = UserIdsGenerator.getInstance().generateId();
+		this.balance = 0;
+	}
 
 	public User( String name, double balance )
 	{
 		this.identifier = UserIdsGenerator.getInstance().generateId();
 		this.name = name;
-		this.balance = balance;
+		if ( balance > 0 )
+			this.balance = balance;
+		else
+			this.balance = 0;
+
+	}
+
+	public TransactionsLinkedList getTransactionList()
+	{
+		return ( this.transactionsList );
 	}
 
 	public int	getIdentifier()
@@ -29,8 +45,18 @@ public class User
 	public void	setBalance( double balance )
 	{
 		if ( balance < 0 )
+		{
 			System.out.print( "Balance cannot be negative." );
-		this.balance = balance;
+			this.balance = 0;
+		}
+		else
+			this.balance = balance;
+	}
+
+	@Override
+	public String toString()
+	{
+		return ( "User | ID: " + identifier + "\tName: " + name + "\tBalance: " + balance + " |" );
 	}
 }
 

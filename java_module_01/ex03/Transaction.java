@@ -2,7 +2,7 @@ import java.util.UUID;
 
 public class Transaction
 {
-	private String	identifier;
+	private final UUID	identifier;
 	private User	receiver;
 	private User	sender;
 	private String	category;
@@ -10,14 +10,14 @@ public class Transaction
 
 	public Transaction( User receiver, User sender, String category, double amount )
 	{
-		this.identifier = UUID.randomUUID().toString();
+		this.identifier = UUID.randomUUID();
 		this.receiver = receiver;
 		this.sender = sender;
 		this.category = category;
 		this.amount = amount;
 	}
 
-	public String	getIdentifier()
+	public UUID	getIdentifier()
 	{
 		return ( this.identifier );
 	}
@@ -41,4 +41,10 @@ public class Transaction
 	{
 		return ( this.amount );
 	}
+
+	public void printTransferInfo()
+	{
+		System.out.print( "\tSender name: " + this.sender.getName() + "\tReceiver name: " + this.receiver.getName() );
+		System.out.println( "\tCategory: " + this.getCategory() + "\tAmount: " + this.getAmount() );
+    }
 }
