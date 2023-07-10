@@ -46,6 +46,12 @@ public class User
 		else
 			this.balance = balance;
 	}
+
+	@Override
+	public String toString()
+	{
+		return ( "User | ID: " + identifier + "\tName: " + name + "\tBalance: " + balance + " |" );
+	}
 }
 
 // 'final' keyword in this case is used like a const

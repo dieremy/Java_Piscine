@@ -4,35 +4,40 @@ public class UsersArrayList implements UsersList
 {
 	private	int		userCount = 0;
 	private	int		userLen = 10;
-	private	User[]	user = new User[userLen];
+	private	User[]	users = new User[userLen];
 
-	private void increaseCapacity()
+	private void increaseLen()
 	{
-		int newCapacity = user.length + ( user.length / 2 );
-		user = Arrays.copyOf( user, newCapacity );  
+		int newLen = users.length + ( users.length / 2 );
+		User[] newUsers = new User[newLen];
+
+		for ( int i = 0; i < users.length; i++ )
+			newUsers[i] = users[i];
+
+		users = newUsers;  
 	}
 
 	public void	addUser( User userNew )
 	{
-		if ( userCount >= user.length )
-			increaseCapacity();
-		user[userCount] = userNew;
+		if ( userCount >= users.length )
+			increaseLen();
+		users[userCount] = userNew;
 		userCount++;
 	}
 
 	public User	getUserById( int id ) throws UserNotFoundException
 	{
 		for ( int i = 0; i < this.userCount; i++ )
-			if ( id == user[i].getIdentifier() )
-				return ( user[i] );
+			if ( id == users[i].getIdentifier() )
+				return ( users[i] );
 		throw new UserNotFoundException( "User with ID " + id + " not found" );
 	}
 
 	public User	getUserByIndex( int index ) throws UserNotFoundException
 	{
 		if ( index < this.userCount && index >= 0 )
-            return user[index];
-        throw new UserNotFoundException( "User with index " + index + " not found" );
+            return users[index];
+		throw new UserNotFoundException( "User with index " + index + " not found" );
 	}
 
 	public int		getUserNum()
@@ -44,8 +49,8 @@ public class UsersArrayList implements UsersList
 	{
 		for ( int i = 0; i < this.userCount; i++ )
 		{
-			System.out.print( i + "\tName: " + user[i].getName() + "  balance: " + user[i].getBalance() );
-			System.out.println( "\tid: " + user[i].getIdentifier() );
+			System.out.print( i + "  [ Name: " + users[i].getName() + "\tbalance: " + users[i].getBalance() );
+			System.out.println( "  \tid: " + users[i].getIdentifier() + " ]" );
 		}
     }
 }
