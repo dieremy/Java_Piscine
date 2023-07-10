@@ -63,20 +63,24 @@ public class TransactionsLinkedList implements TransactionsList
 	{
 		if ( id == null )
 			throw new TransactionNotFoundException( "Transaction ID is 'NULL'." ); 
-		findNode( id );
+		
+		Node nodeToRemove = findNode( id );
+		if ( nodeToRemove == null )
+			throw new TransactionNotFoundException( "Transaction not found with ID: " + id ); 
+		removeNode( nodeToRemove );
 	}
 
-	public void	findNode( UUID id ) throws TransactionNotFoundException
+	public Node	findNode( UUID id )
 	{
 		Node tmpNode = head;
 
 		while ( tmpNode != null )
 		{
-			if ( tmpNode.elemTrans != null && id.equals( tmpNode.elemTrans.getIdentifier() ) )
-				removeNode( tmpNode );
+			if ( tmpNode.getTransaction().getIdentifier().equals( id ) )
+				return ( tmpNode );
 			tmpNode = tmpNode.getNext();
 		}
-		throw new TransactionNotFoundException( "Transaction not found with ID: " + id ); 
+		return ( null );
 	}
 
 	public void	removeNode( Node current )

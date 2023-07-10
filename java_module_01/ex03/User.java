@@ -22,6 +22,11 @@ public class User
 
 	}
 
+	public void setTransactionList( TransactionsLinkedList tList )
+	{
+		this.transactionsList = tList;
+	}
+
 	public TransactionsLinkedList getTransactionList()
 	{
 		return ( this.transactionsList );

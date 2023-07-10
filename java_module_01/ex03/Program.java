@@ -7,7 +7,7 @@ public class Program
 		User user1 = new User( "User 1", 5000 );
 		User user2 = new User( "User 2", 2500 );
 
-		TransactionsLinkedList listTransactionUser1 = user1.getTransactionList();
+		TransactionsLinkedList listTransactionUser1 = new TransactionsLinkedList();
 
 		Transaction t1 = new Transaction( user1, user2, "Debit", 200 );
 		Transaction t2 = new Transaction( user1, user2, "Credit", -100 );
@@ -19,6 +19,8 @@ public class Program
 		listTransactionUser1.addTransaction(t3);
 		listTransactionUser1.addTransaction(t4);
 
+		user1.setTransactionList( listTransactionUser1 );
+
 		System.out.println( user1.getName() + " made " + user1.getTransactionList().getListSize() + " transactions." );
 
 		System.out.println( "Removing transaction ID:" );
@@ -28,7 +30,7 @@ public class Program
 		{
 			listTransactionUser1.removeTransactionById( UUID.randomUUID() );
 		}
-		catch ( UserNotFoundException ex )
+		catch ( TransactionNotFoundException ex )
 		{
 			System.out.println( ex );
 		}
