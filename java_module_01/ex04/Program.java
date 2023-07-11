@@ -14,11 +14,17 @@ public class Program
 		service.addUser( user3 );
 		service.addUser( user4 );
 
+		user1.setTransactionsList( new TransactionsLinkedList() );
+		user2.setTransactionsList( new TransactionsLinkedList() );
+		user3.setTransactionsList( new TransactionsLinkedList() );
+		user4.setTransactionsList( new TransactionsLinkedList() );
+
 		System.out.println( "User 1" + service.getUserBalance( user1.getIdentifier() ) );
 		System.out.println( "User 2" + service.getUserBalance( user2.getIdentifier() ) );
 		System.out.println( "User 3" + service.getUserBalance( user3.getIdentifier() ) );
 		System.out.println( "User 4" + service.getUserBalance( user4.getIdentifier() ) );
 
+		System.out.println( "\nTransfers >>" );
 		service.executeTransfer( user1.getIdentifier(), user3.getIdentifier(), 200 );
 		service.executeTransfer( user2.getIdentifier(), user1.getIdentifier(), 100 );
 		service.executeTransfer( user3.getIdentifier(), user2.getIdentifier(), 300 );
@@ -29,20 +35,35 @@ public class Program
 		service.executeTransfer( user1.getIdentifier(), user2.getIdentifier(), 400 );
 		service.executeTransfer( user3.getIdentifier(), user4.getIdentifier(), 100 );
 
-		System.out.println( "User 1" + user1 + "User 1 list: " + user1.getTransactionsList() );
-		System.out.println( "User 2" + user2 + "User 2 list: " + user2.getTransactionsList() );
-		System.out.println( "User 3" + user3 + "User 3 list: " + user3.getTransactionsList() );
-		System.out.println( "User 4" + user4 + "User 4 list: " + user4.getTransactionsList() );
+		System.out.print( "User 1 " + user1 );
+		System.out.println( "\nUser 1 list: " + user1.getTransactionsList() );
+		System.out.print( "\nUser 2 " + user2 );
+		System.out.println( "\nUser 2 list: " + user2.getTransactionsList() );
+		System.out.print( "\nUser 3 " + user3 );
+		System.out.println( "\nUser 3 list: " + user3.getTransactionsList() );
+		System.out.print( "\nUser 4 " + user4 );
+		System.out.println( "\nUser 4 list: " + user4.getTransactionsList() );
 
+		System.out.println( "\n\nGet transactions by user ID >>" );
 		Transaction[] transactions = service.getTransactionsList( user1.getIdentifier() );
 		for ( Transaction t : transactions )
 			System.out.println( t );
 
-		service.removeTransactionById( transactions[1].getIdentifier(), user2.getIdentifier() );
-		service.removeTransactionById( transactions[2].getIdentifier(), user2.getIdentifier() );
-		service.removeTransactionById( transactions[3].getIdentifier(), user2.getIdentifier() );
-		System.out.println( "User 2" + user2 + "User 2 list: " + user2.getTransactionsList() );
+		System.out.println( "\nRemove transactions by ID >>" );
+		try
+		{
+			service.removeTransactionById( transactions[1].getIdentifier(), user1.getIdentifier() );
+			service.removeTransactionById( transactions[2].getIdentifier(), user1.getIdentifier() );
+			service.removeTransactionById( transactions[3].getIdentifier(), user1.getIdentifier() );
+			System.out.print( "User 1 " + user1 );
+			System.out.println( "\nUser 1 list: " + user1.getTransactionsList() );
+		}
+		catch ( TransactionNotFoundException ex )
+		{
+			System.out.println( ex.getMessage() );
+		}
 
+		System.out.println( "\nCheck unpaired transactions >>" );
 		transactions = service.unpairedTransactions();
 		for ( Transaction t : transactions )
 			System.out.println( t );
@@ -53,7 +74,7 @@ public class Program
 		}
 		catch ( IllegalTransactionException ex )
 		{
-			System.out.println( ex );
+			System.out.println( "\n" + ex.getMessage() );
 		}
 	}
 }

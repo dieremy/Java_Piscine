@@ -47,9 +47,9 @@ public class Transaction
 		return ( this.amount );
 	}
 
-	public void printTransferInfo()
+	@Override
+	public String toString()
 	{
-		System.out.print( "\tSender name: " + this.sender.getName() + "\tReceiver name: " + this.receiver.getName() );
-		System.out.println( "\tCategory: " + this.getCategory() + "\tAmount: " + this.getAmount() );
+		return ( "Sender name: " + this.sender.getName() + " | Receiver name: " + this.receiver.getName() + " | Category: " + this.getCategory() + "   | Amount: " + this.getAmount() );
     }
 }

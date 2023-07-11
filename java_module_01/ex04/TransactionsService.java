@@ -53,9 +53,19 @@ public class TransactionsService
 		return ( userList.getUserById( idUser ).getTransactionsList().toArray() );
 	}
 
-	public void removeTransactionById( UUID transactionId, int idUser )
+	public void removeTransactionById( UUID transactionId, int idUser ) throws TransactionNotFoundException
 	{
-		userList.getUserById( idUser ).getTransactionsList().removeTransactionById( transactionId );
+		User user = userList.getUserById( idUser );
+		TransactionsList tList = user.getTransactionsList();
+
+		try
+		{
+			tList.removeTransactionById( transactionId );
+		}
+		catch ( TransactionNotFoundException ex )
+		{
+			throw new TransactionNotFoundException( "Transaction not found with ID: " + transactionId );
+		}
 	}
 
 	public Transaction[] unpairedTransactions()
@@ -67,7 +77,7 @@ public class TransactionsService
 
 		for ( int i = 0; i < size; i++ )
 		{
-			User user = userList.getUserById( i );
+			User user = userList.getUserByIndex( i );
 			Transaction[] transactions = user.getTransactionsList().toArray();
 			for ( int j = 0; j < transactions.length; j++ )
 			{
@@ -92,10 +102,10 @@ public class TransactionsService
 			if ( i == x )
 				continue ;
 			
-			User user = userList.getUserById( x );
+			User user = userList.getUserByIndex( x );
 			Transaction[] transactions = user.getTransactionsList().toArray();
 			
-			for ( int j = 0; j < transactions.length; x++ )
+			for ( int j = 0; j < transactions.length; j++ )
 				if ( id.equals( transactions[j].getIdentifier() ) )
 					return ( false );
 		}

@@ -44,14 +44,7 @@ public class TransactionsLinkedList implements TransactionsList
 
 	public	void			addTransaction( Transaction transaction )
 	{
-		// Node elem = tail;
 		Node newNode = new Node( transaction );
-		// tail = newNode;
-		
-		// if ( elem == null )
-		// 	head = newNode;
-		// else
-		// 	elem.next = newNode;
 
 		if ( head == null )
 		{
@@ -68,26 +61,18 @@ public class TransactionsLinkedList implements TransactionsList
 
 	public	void removeTransactionById( UUID id ) throws TransactionNotFoundException
 	{
-		if ( id == null )
-			throw new TransactionNotFoundException( "Transaction ID is 'NULL'." ); 
-		
-		Node nodeToRemove = findNode( id );
-		if ( nodeToRemove == null )
-			throw new TransactionNotFoundException( "Transaction not found with ID: " + id ); 
-		removeNode( nodeToRemove );
-	}
-
-	public Node	findNode( UUID id )
-	{
 		Node tmpNode = head;
 
 		while ( tmpNode != null )
 		{
 			if ( tmpNode.getTransaction().getIdentifier().equals( id ) )
-				return ( tmpNode );
+			{
+				removeNode( tmpNode );
+				return ;
+			}
 			tmpNode = tmpNode.getNext();
 		}
-		return ( null );
+		throw new TransactionNotFoundException( "Transaction not found with ID: " + id );
 	}
 
 	public void	removeNode( Node current )
@@ -151,5 +136,24 @@ public class TransactionsLinkedList implements TransactionsList
 			i++;
 		}
 		return ( i );
+	}
+
+	@Override
+	public String toString()
+	{
+		Node tmp = head;
+		String out = "[ ";
+
+		if ( head == null )
+			return ( "[]" );
+		while ( tmp != null )
+		{
+			out += tmp.getTransaction();
+			if ( tmp.getNext() != null )
+				out += " -- ";
+			tmp = tmp.getNext();
+		}
+		out += " ]";
+		return ( out );
 	}
 }
