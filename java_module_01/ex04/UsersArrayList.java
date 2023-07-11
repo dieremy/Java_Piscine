@@ -42,7 +42,7 @@ public class UsersArrayList implements UsersList
 
 	public int		getUserNum()
 	{
-		return ( this.userLen );
+		return ( this.userCount );
 	}
 
 	public void printInfo()

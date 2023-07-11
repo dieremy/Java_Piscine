@@ -44,8 +44,15 @@ public class TransactionsLinkedList implements TransactionsList
 
 	public	void			addTransaction( Transaction transaction )
 	{
+		// Node elem = tail;
 		Node newNode = new Node( transaction );
+		// tail = newNode;
 		
+		// if ( elem == null )
+		// 	head = newNode;
+		// else
+		// 	elem.next = newNode;
+
 		if ( head == null )
 		{
 			head = newNode;

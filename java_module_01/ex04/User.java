@@ -2,7 +2,7 @@ public class User
 {
 	private final int	identifier;
 	private String		name;
-	private double		balance;
+	private int			balance;
 	private TransactionsLinkedList transactionsList;
 
 	public User()
@@ -11,7 +11,7 @@ public class User
 		this.balance = 0;
 	}
 
-	public User( String name, double balance )
+	public User( String name, int balance )
 	{
 		this.identifier = UserIdsGenerator.getInstance().generateId();
 		this.name = name;
@@ -22,12 +22,12 @@ public class User
 
 	}
 
-	public void setTransactionList( TransactionsLinkedList tList )
+	public void setTransactionsList( TransactionsLinkedList tList )
 	{
 		this.transactionsList = tList;
 	}
 
-	public TransactionsLinkedList getTransactionList()
+	public TransactionsLinkedList getTransactionsList()
 	{
 		return ( this.transactionsList );
 	}
@@ -42,12 +42,12 @@ public class User
 		return ( this.name );
 	}
 	
-	public double	getBalance()
+	public int	getBalance()
 	{
 		return ( this.balance );
 	}
 
-	public void	setBalance( double balance )
+	public void	setBalance( int balance )
 	{
 		if ( balance < 0 )
 		{

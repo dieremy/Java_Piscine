@@ -1,64 +1,59 @@
-import java.util.UUID;
-
 public class Program
 {
 	public static void main( String[] args )
 	{
+		TransactionsService service = new TransactionsService();
+
 		User user1 = new User( "User 1", 5000 );
 		User user2 = new User( "User 2", 2500 );
+		User user3 = new User( "User 3", 4000 );
+		User user4 = new User( "User 4", 7000 );
 
-		TransactionsLinkedList listTransactionUser1 = new TransactionsLinkedList();
+		service.addUser( user1 );
+		service.addUser( user2 );
+		service.addUser( user3 );
+		service.addUser( user4 );
 
-		Transaction t1 = new Transaction( user1, user2, "Debit", 200 );
-		Transaction t2 = new Transaction( user1, user2, "Credit", -100 );
-		Transaction t3 = new Transaction( user1, user2, "Debit", 300 );
-		Transaction t4 = new Transaction( user1, user2, "Credit", -150 );
+		System.out.println( "User 1" + service.getUserBalance( user1.getIdentifier() ) );
+		System.out.println( "User 2" + service.getUserBalance( user2.getIdentifier() ) );
+		System.out.println( "User 3" + service.getUserBalance( user3.getIdentifier() ) );
+		System.out.println( "User 4" + service.getUserBalance( user4.getIdentifier() ) );
 
-		listTransactionUser1.addTransaction(t1);
-		listTransactionUser1.addTransaction(t2);
-		listTransactionUser1.addTransaction(t3);
-		listTransactionUser1.addTransaction(t4);
+		service.executeTransfer( user1.getIdentifier(), user3.getIdentifier(), 200 );
+		service.executeTransfer( user2.getIdentifier(), user1.getIdentifier(), 100 );
+		service.executeTransfer( user3.getIdentifier(), user2.getIdentifier(), 300 );
+		service.executeTransfer( user4.getIdentifier(), user2.getIdentifier(), 250 );
+		service.executeTransfer( user4.getIdentifier(), user3.getIdentifier(), 234 );
+		service.executeTransfer( user4.getIdentifier(), user3.getIdentifier(), 280 );
+		service.executeTransfer( user4.getIdentifier(), user1.getIdentifier(), 300 );
+		service.executeTransfer( user1.getIdentifier(), user2.getIdentifier(), 400 );
+		service.executeTransfer( user3.getIdentifier(), user4.getIdentifier(), 100 );
 
-		user1.setTransactionList( listTransactionUser1 );
+		System.out.println( "User 1" + user1 + "User 1 list: " + user1.getTransactionsList() );
+		System.out.println( "User 2" + user2 + "User 2 list: " + user2.getTransactionsList() );
+		System.out.println( "User 3" + user3 + "User 3 list: " + user3.getTransactionsList() );
+		System.out.println( "User 4" + user4 + "User 4 list: " + user4.getTransactionsList() );
 
-		System.out.println( user1.getName() + " made " + user1.getTransactionList().getListSize() + " transactions." );
+		Transaction[] transactions = service.getTransactionsList( user1.getIdentifier() );
+		for ( Transaction t : transactions )
+			System.out.println( t );
 
-		System.out.println( "Removing transaction ID:" );
-		listTransactionUser1.removeTransactionById( t3.getIdentifier() );
-		
+		service.removeTransactionById( transactions[1].getIdentifier(), user2.getIdentifier() );
+		service.removeTransactionById( transactions[2].getIdentifier(), user2.getIdentifier() );
+		service.removeTransactionById( transactions[3].getIdentifier(), user2.getIdentifier() );
+		System.out.println( "User 2" + user2 + "User 2 list: " + user2.getTransactionsList() );
+
+		transactions = service.unpairedTransactions();
+		for ( Transaction t : transactions )
+			System.out.println( t );
+
 		try
 		{
-			listTransactionUser1.removeTransactionById( UUID.randomUUID() );
+			service.executeTransfer( user1.getIdentifier(), user4.getIdentifier(), 200000 );
 		}
-		catch ( TransactionNotFoundException ex )
+		catch ( IllegalTransactionException ex )
 		{
 			System.out.println( ex );
 		}
-
-		System.out.println( "Transfering in Transaction Array:" );
-		Transaction[] arrayTransaction = listTransactionUser1.toArray();
-
-		for ( Transaction elem : arrayTransaction )
-			elem.printTransferInfo();
 	}
 }
-
-
-
-/// public interface UserList ( .java )
-/// methods declaration:
-/// void addUser( User new )
-/// User getUserById( int id )
-/// User getUserByIndex( int index )
-/// int getUserCount() - getter
-
-/// public class UserArrayList ( .java ) implements UserList
-/// addUser method fill and insert more space
-/// getUserById return the user[i] when iter matches /// if not, throw new exception
-/// getUserByIndex returns User[i] where i is passed as argument /// if not, throw new exception
-/// getUserCount - getter
-/// printInof loop to print each User
-
-/// public class UserNotFoundException ( .java ) extends RuntimeException
-/// UserNotFoundException( String msg )
-///       super( msg );

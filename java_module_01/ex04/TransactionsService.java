@@ -19,10 +19,10 @@ public class TransactionsService
 	public int getUserBalance( User user )
 	{
 		int id = user.getIdentifier();
-		int len = userList.length;
+		int	len = userList.getUserNum();
 
 		for ( int i = 0; i < len; i++ )
-x			if ( userList[i].getIdentifier() == id )
+			if ( userList.getUserByIndex( i ).getIdentifier() == id )
 				return ( user.getBalance() );
 		throw new IllegalTransactionException( "User not found" );
 	}
@@ -32,7 +32,7 @@ x			if ( userList[i].getIdentifier() == id )
 		User sender = userList.getUserById( idSender );
 		User receiver = userList.getUserById( idReceiver );
 
-		if ( amount < 0 || sender.getBalance() < amount || idSender == idReceiver )
+		if ( amount <= 0 || sender.getBalance() < amount || idSender == idReceiver )
 			throw new IllegalTransactionException( "Illegal Transaction" );
 		
 		Transaction debit = new Transaction( sender, receiver, "DEBIT", amount );
@@ -41,25 +41,26 @@ x			if ( userList[i].getIdentifier() == id )
 		debit.setIdentifier( UUID.randomUUID() );
 		credit.setIdentifier( debit.getIdentifier() );
 
-		sender.getTransactionList().addTransaction( debit );
-		receiver.getTransactionList().addTransaction( credit );
+		sender.getTransactionsList().addTransaction( debit );
+		receiver.getTransactionsList().addTransaction( credit );
+		
+		sender.setBalance( sender.getBalance() - amount );
+		receiver.setBalance( receiver.getBalance() + amount );
 	}
 
-	public Transaction[]	getTransactionList( int idUser )
+	public Transaction[]	getTransactionsList( int idUser )
 	{
-		User user = getUserById( idUser );
-		return ( user.getTransactions().toArray() );
+		return ( userList.getUserById( idUser ).getTransactionsList().toArray() );
 	}
 
 	public void removeTransactionById( UUID transactionId, int idUser )
 	{
-		User user = getUserById( idUser );
-		user.getTransactions().removeTransactionById( transactionId );
+		userList.getUserById( idUser ).getTransactionsList().removeTransactionById( transactionId );
 	}
 
 	public Transaction[] unpairedTransactions()
 	{
-		int size = userList.length;
+		int size = userList.getUserNum();
 		int start = 0;
 		int max = 10;
 		Transaction[] out = new Transaction[max];
@@ -67,21 +68,21 @@ x			if ( userList[i].getIdentifier() == id )
 		for ( int i = 0; i < size; i++ )
 		{
 			User user = userList.getUserById( i );
-			Transaction[] transactions = user.getTransaction().toArray();
+			Transaction[] transactions = user.getTransactionsList().toArray();
 			for ( int j = 0; j < transactions.length; j++ )
 			{
 				if ( isUnpairedTransaction( i, transactions[j].getIdentifier(), size ) )
 				{
 					max *= 2;
-					Transaction[] tmp = result;
-					result = new Transaction[max];
-					for ( int x = 0 x < tmp.length; x++ )
-						result[x] = tmp[x];
+					Transaction[] tmp = out;
+					out = new Transaction[max];
+					for ( int x = 0; x < tmp.length; x++ )
+						out[x] = tmp[x];
 				}
-				result[start++] = transactions[j];
+				out[start++] = transactions[j];
 			}
 		}
-		return ( modifiedArray( start, result ) );
+		return ( modifiedArray( start, out ) );
 	}
 
 	private boolean isUnpairedTransaction( int i, UUID id, int size )
@@ -92,7 +93,7 @@ x			if ( userList[i].getIdentifier() == id )
 				continue ;
 			
 			User user = userList.getUserById( x );
-			Transaction[] transactions = user.getTransaction().toArray();
+			Transaction[] transactions = user.getTransactionsList().toArray();
 			
 			for ( int j = 0; j < transactions.length; x++ )
 				if ( id.equals( transactions[j].getIdentifier() ) )
@@ -103,10 +104,10 @@ x			if ( userList[i].getIdentifier() == id )
 
 	private Transaction[] modifiedArray( int max, Transaction[] tmp )
 	{
-		Transaction[] result = new Transaction[max];
+		Transaction[] out = new Transaction[max];
 
 		for ( int i = 0; i < max; i++ )
-			result[i] = tmp[i];
-		return ( result );
+			out[i] = tmp[i];
+		return ( out );
 	}
 }

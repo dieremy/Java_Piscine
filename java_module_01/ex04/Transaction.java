@@ -2,7 +2,7 @@ import java.util.UUID;
 
 public class Transaction
 {
-	private final UUID	identifier;
+	private UUID	identifier;
 	private User	receiver;
 	private User	sender;
 	private String	category;
