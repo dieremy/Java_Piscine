@@ -1,9 +1,9 @@
-	import java.io.FileInputStream;
-	import java.io.FileOutputStream;
-	import java.util.HashMap;
-	import java.util.Map;
-	import java.util.Scanner;
-	import java.util.Iterator;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.Iterator;
 
 public class Program
 {
