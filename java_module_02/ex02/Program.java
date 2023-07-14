@@ -13,11 +13,11 @@ public class Program
 	public static void main( String[] args )
 	{
 		if ( checkWrongArgs( args ) || checkPath( args[0] ) )
-            System.exit( -1 );
-        System.out.println( path );
+			System.exit( -1 );
+		System.out.println( path );
 
 		Scanner scan = new Scanner( System.in );
-        while ( true )
+		while ( true )
 			if ( !execute( scan ) )
 				System.exit(0);
 	}
@@ -26,8 +26,8 @@ public class Program
 	{
 		if ( args.length != 1 || !args[0].startsWith( "--current-folder=" ) )
 		{
-            System.err.println( "No absolute path encountered as program argument" );
-            System.err.println( "Specify an absolute path using '--current-folder='" );
+			System.err.println( "No absolute path encountered as program argument" );
+			System.err.println( "Specify an absolute path using '--current-folder='" );
 			return ( true );
 		}
 		return ( false );
@@ -36,9 +36,9 @@ public class Program
 	public static boolean checkPath( String arg )
 	{
 		path = Paths.get( arg.substring( 17 ) );
-		
+
 		if ( !path.isAbsolute() || !file.isDirectory( path ) )
-        {
+		{
 			System.err.println( "Wrong current path." );
 			return ( true );
 		}
@@ -51,7 +51,7 @@ public class Program
 		String[] cmdArgs = cmdLine.split( "\\s+" );
 
 		if ( cmdArgs.length == 1 )
-        {
+		{
 			if ( cmdArgs[0].equals( "ls" ) )
 				ls();
 			else if ( cmdArgs[0].equals( "exit" ) )
@@ -60,12 +60,12 @@ public class Program
 				return ( false );
 			}
 		}
-        else if ( cmdArgs.length == 2 && cmdArgs[0].equals( "cd" ) )
-            cd( cmdArgs[1] );
+		else if ( cmdArgs.length == 2 && cmdArgs[0].equals( "cd" ) )
+			cd( cmdArgs[1] );
 		else if ( cmdArgs.length == 3 && cmdArgs[0].equals( "mv" ) )
-            mv( cmdArgs[1], cmdArgs[2] );
+			mv( cmdArgs[1], cmdArgs[2] );
 		else
-            System.out.println( cmdArgs[0] + ": bad usage" );
+			System.out.println( cmdArgs[0] + ": bad usage" );
 		return ( true );
 	}
 
@@ -76,43 +76,43 @@ public class Program
 		try
 		{
 			DirectoryStream<Path> files = Files.newDirectoryStream( path );
-            for ( Path tmp : files )
+			for ( Path tmp : files )
 			{
-                if ( Files.isDirectory( tmp ) )
-                    size = dirSize( tmp );
-                else
-                    size = Files.size( tmp );
-                System.out.println( tmp.getFileName() + " " + ( size / 1000 ) + " KB" );
-            }
-        }
+				if ( Files.isDirectory( tmp ) )
+					size = dirSize( tmp );
+				else
+					size = Files.size( tmp );
+				System.out.println( tmp.getFileName() + " " + ( size / 1000 ) + " KB" );
+			}
+		}
 		catch( IOException e )
 		{
-            System.out.println( "Exception in method: ls" );
-            System.out.println( e.getMessage() );
-        }
+			System.out.println( "Exception in method: ls" );
+			System.out.println( e.getMessage() );
+		}
 	}	
 
 	public static long dirSize( Path tmpPath )
 	{
-        long size = 0;
+		long size = 0;
 
-        try
+		try
 		{
 			DirectoryStream<Path> files = Files.newDirectoryStream( tmpPath );
-            for ( Path tmp : files )
+			for ( Path tmp : files )
 			{
-                if ( Files.isDirectory( tmp ) )
-                    size += dirSize( tmp );
-                else
-                    size += Files.size( tmp );
-            }
-        }
+				if ( Files.isDirectory( tmp ) )
+					size += dirSize( tmp );
+				else
+					size += Files.size( tmp );
+			}
+		}
 		catch ( IOException e )
 		{
-            System.out.println( e.getMessage() );
-        }
-        return ( size );
-    }
+			System.out.println( e.getMessage() );
+		}
+		return ( size );
+	}
 
 	public static void	cd( String dest )
 	{
@@ -120,26 +120,25 @@ public class Program
 		tmpPath = path.resolve( tmpPath ).normalize();
 
 		if ( Files.isDirectory( tmpPath ) )
-            path = tmpPath;
-        else
-            System.err.println( "cd: no such directory: " + dest );
-        System.out.println( path );
-
+			path = tmpPath;
+		else
+			System.err.println( "cd: no such directory: " + dest );
+		System.out.println( path );
 	}
 
 	public static void	mv( String src, String dest )
 	{
-	        try
+		try
 		{
-	            Path source = path.resolve( src );
-	            Path destination = path.resolve( dest );
-	
-	            Files.move( source, destination, StandardCopyOption.REPLACE_EXISTING );
-	        }
+			Path source = path.resolve( src );
+			Path destination = path.resolve( dest );
+
+			Files.move( source, destination, StandardCopyOption.REPLACE_EXISTING );
+		}
 		catch ( IOException e )
 		{
-	            System.err.println( "Exception in method: mv" );
-	            System.err.println( e.getMessage() );
-	        }
-    	}
+				System.err.println( "Exception in method: mv" );
+				System.err.println( e.getMessage() );
+		}
+	}
 }
