@@ -39,8 +39,8 @@ public class Program
 			while ( scan.hasNextLine() )
 			{
 				String line = scan.nextLine();
-				String[] elem = line.split(",");
-				dictionary.put(elem[0], elem[1].replaceAll("\\s+", ""));
+				String[] elem = line.split( "," );
+				dictionary.put( elem[0], elem[1].replaceAll( "\\s+", "" ) );
 			}
 			scan.close();
 			inFile.close();
