@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Scanner;
 import java.nio.file.*;
+import java.io.*;
 
 public class Program
 {
@@ -19,7 +20,7 @@ public class Program
 		Scanner scan = new Scanner( System.in );
 		while ( true )
 			if ( !execute( scan ) )
-				System.exit(0);
+				System.exit( 0 );
 	}
 
 	public static boolean checkWrongArgs( String[] args )
@@ -130,10 +131,27 @@ public class Program
 	{
 		try
 		{
-			Path source = path.resolve( src );
-			Path destination = path.resolve( dest );
+			Path source = Paths.get( src );
+			Path target = Paths.get( dest );
+			source = path.resolve( source );
+			target = path.resolve( target );
+			
+			Path fileToMove = Files.createTempFile( Files.createTempDirectory( source.toString() ), src );
+			// Files.exists( fileToMove );
 
-			Files.move( source, destination, StandardCopyOption.REPLACE_EXISTING );
+			Path targetDir = Files.createTempDirectory( target.toString() );
+
+			Path tmp = Files.move( fileToMove, targetDir.resolve( fileToMove.getFileName() ), StandardCopyOption.REPLACE_EXISTING );
+			// File file = new File( src );
+			// if ( file.renameTo( new File( dest ) ) )
+			// 	file.delete();
+			// else
+			// 	System.out.println( "Failed to move the file" );
+
+
+			// System.out.println( "source path: " + source );
+			// System.out.println( "target path: " + target );
+
 		}
 		catch ( IOException e )
 		{
