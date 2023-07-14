@@ -13,9 +13,6 @@ public class Program
 			System.exit( -1 );
 		try
 		{
-			FileWriter fileToWrite = new FileWriter( DICTIONARY_FILE );
-			BufferedWriter writer = new BufferedWriter( fileToWrite );
-
 			FileReader fileA = new FileReader( args[0] );
             BufferedReader readerA = new BufferedReader( fileA );
 
@@ -24,6 +21,16 @@ public class Program
 
             fillDictionary( readerA );
             fillDictionary( readerB );
+
+			FileWriter fileToWrite = new FileWriter( DICTIONARY_FILE );
+			BufferedWriter writer = new BufferedWriter( fileToWrite );
+            
+			for ( String word : dictionary )
+			{
+                writer.write( word );
+                writer.newLine();
+            }
+			writer.close();
 
             double[] arrayA = new double[dictionary.size()];
             double[] arrayB = new double[dictionary.size()];
@@ -38,11 +45,6 @@ public class Program
 
             System.out.println( "Similarity = " + result );
 
-            for ( String word : dictionary )
-			{
-                writer.write( word );
-                writer.newLine();
-            }
         }
 		catch ( IOException e )
 		{
