@@ -98,7 +98,7 @@ public class Program
 					return ;
 				}
 			}
-			System.out.println( "UNDEFINED"  );
+			System.out.println( "UNDEFINED" );
 		}
 		catch ( Exception e )
 		{

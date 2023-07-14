@@ -6,31 +6,15 @@ public class Program
 {
 	private static final String DICTIONARY_FILE = "dictionary.txt";
 	private static final ArrayList<String> dictionary = new ArrayList<String>();
+	private static BufferedReader readerA;
+	private static BufferedReader readerB;
 
 	public static void main( String[] args )
 	{
-		if ( checkWrongArgs( args ) )
-			System.exit( -1 );
 		try
 		{
-			FileReader fileA = new FileReader( args[0] );
-            BufferedReader readerA = new BufferedReader( fileA );
-
-			FileReader fileB = new FileReader( args[1] );
-            BufferedReader readerB = new BufferedReader( fileB );
-
-            fillDictionary( readerA );
-            fillDictionary( readerB );
-
-			FileWriter fileToWrite = new FileWriter( DICTIONARY_FILE );
-			BufferedWriter writer = new BufferedWriter( fileToWrite );
-            
-			for ( String word : dictionary )
-			{
-                writer.write( word );
-                writer.newLine();
-            }
-			writer.close();
+			if ( !writeToFile( args ) )
+				System.exit( -1 );
 
             double[] arrayA = new double[dictionary.size()];
             double[] arrayB = new double[dictionary.size()];
@@ -52,6 +36,33 @@ public class Program
         }
 	}
 	
+	public static boolean	writeToFile( String[] args )
+	{
+		try
+		{
+			if ( checkWrongArgs( args ) )
+				return( false );
+
+			readerA = new BufferedReader( new FileReader( args[0] ) );
+			readerB = new BufferedReader( new FileReader( args[1] ) );
+			fillDictionary( readerA );
+			fillDictionary( readerB );
+
+			BufferedWriter writer = new BufferedWriter( new FileWriter( DICTIONARY_FILE ) );	
+			for ( String word : dictionary )
+			{
+				writer.write( word );
+				writer.newLine();
+			}
+			writer.close();
+		}
+		catch ( IOException e )
+		{
+            System.out.println( e.getMessage() );
+        }
+		return ( true );
+	}
+
 	public static boolean checkWrongArgs( String[] args )
 	{
 		if ( args.length != 2 )
