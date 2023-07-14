@@ -129,39 +129,17 @@ public class Program
 
 	public static void	mv( String src, String dest )
 	{
-		Path source = null;
-
-        try 
+	        try
 		{
-			DirectoryStream<Path> files = Files.newDirectoryStream( path );
-            for ( Path tmp : files )
-			{
-                if ( tmp.getFileName().toString().equals( src ) && Files.isRegularFile( tmp ) )
-				{
-                    source = tmp;
-                    break;
-                }
-            }
-
-            if ( source == null )
-			{
-                System.err.println( "mv: no such file: " + src );
-                files.close();
-                return;
-            }
-
-			Path tmpPath = Paths.get( dest );
-			tmpPath = path.resolve( tmpPath ).normalize();
-            if ( Files.isDirectory( tmpPath ) )
-                Files.move( source, path.resolve( source.getFileName()), StandardCopyOption.REPLACE_EXISTING );
-            else
-                Files.move( source, source.resolveSibling( Paths.get( dest ) ) );
-        }
+	            Path source = path.resolve( src );
+	            Path destination = path.resolve( dest );
+	
+	            Files.move( source, destination, StandardCopyOption.REPLACE_EXISTING );
+	        }
 		catch ( IOException e )
 		{
-            System.err.println( "Exception in method: commandMV" );
-            System.err.println( e.getMessage() );
-        }
-
-	}
+	            System.err.println( "Exception in method: mv" );
+	            System.err.println( e.getMessage() );
+	        }
+    	}
 }
