@@ -131,27 +131,13 @@ public class Program
 	{
 		try
 		{
-			Path source = Paths.get( src );
-			Path target = Paths.get( dest );
-			source = path.resolve( source );
-			target = path.resolve( target );
+			Path source = path.resolve( src );
+			Path target = path.resolve( dest );
 			
-			Path fileToMove = Files.createTempFile( Files.createTempDirectory( source.toString() ), src );
-			// Files.exists( fileToMove );
-
-			Path targetDir = Files.createTempDirectory( target.toString() );
-
-			Path tmp = Files.move( fileToMove, targetDir.resolve( fileToMove.getFileName() ), StandardCopyOption.REPLACE_EXISTING );
-			// File file = new File( src );
-			// if ( file.renameTo( new File( dest ) ) )
-			// 	file.delete();
-			// else
-			// 	System.out.println( "Failed to move the file" );
-
-
-			// System.out.println( "source path: " + source );
-			// System.out.println( "target path: " + target );
-
+			if ( Files.exists( source ) && Files.isRegularFile( source ) )
+				Files.move( source, target.resolve( source.getFileName() ), StandardCopyOption.REPLACE_EXISTING );
+			else
+				System.out.println( "Failed to move the file" );
 		}
 		catch ( IOException e )
 		{
