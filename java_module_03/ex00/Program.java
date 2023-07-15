@@ -12,8 +12,8 @@ public class Program
 				System.exit( -1 );
 			else
 			{
-				Egg egg = new Egg(count);
-				Hen hen = new Hen(count);
+				Egg egg = new Egg( count );
+				Hen hen = new Hen( count );
 
 				egg.start();
 				hen.start();
