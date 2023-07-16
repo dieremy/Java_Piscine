@@ -1,5 +1,3 @@
-package ex02;
-
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.Executors;
@@ -11,7 +9,7 @@ class Program
     private static int threadsCount;
     private static int chunkLen;
     private static int lastChunkLen;
-	private static volatile int sum;
+	private static int sum;
 
     public static void main( String[] args )
 	{
@@ -25,10 +23,6 @@ class Program
 			divideInChunks();
 
 			executeTasks( vector );
-			// for ( int i = 0; i < vector.length; i++ )
-			// 	System.out.println( "vector[i]: " + vector[i] );
-            // System.out.println();
-			
 		}
 		catch ( Exception e )
 		{
@@ -43,25 +37,32 @@ class Program
 		{
 			ExecutorService pool = Executors.newFixedThreadPool( threadsCount );
 			int startIndex = 0;
+			Task t;
+			int count = 0;
+			sum = 0;
 
 			for ( int i = 0; i < threadsCount - 1; i++ )
 			{
+				sum = count;
 				int endIndex = startIndex + chunkLen;
-				pool.execute( new Task( vector, startIndex, endIndex ) );
+				t = new Task( vector, startIndex, endIndex, sum );
+				pool.execute( t );
+				count = t.getSum();
+				// System.out.println( "Sum test: " + i + " " + count );
 				startIndex = endIndex;
 			}
 
 			// int endIndex = startIndex + chunkLen + lastChunkLen;
 			int endIndex = arraySize;
-			pool.execute( new Task( vector, startIndex, endIndex ) );
+			t = new Task( vector, startIndex, endIndex, sum );
+			pool.execute( t );
 
 			// method that shutdowns the threadpool
 			pool.shutdown();
-			
 			// method waits util all tasks in the thread pool
 			// have completed execution or until specifieed timeout
 			pool.awaitTermination( Long.MAX_VALUE, TimeUnit.NANOSECONDS );
-			System.out.println( "Sum by threads: " + sum );
+			System.out.println( "Sum by threads: " + t.getSum() );
 		}
 		catch ( InterruptedException e )
 		{
