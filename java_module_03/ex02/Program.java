@@ -9,7 +9,8 @@ class Program
     private static int threadsCount;
     private static int chunkLen;
     private static int lastChunkLen;
-	private static int sum;
+	public static int sum;
+	public static final Object lock = new Object();
 
     public static void main( String[] args )
 	{
@@ -43,18 +44,14 @@ class Program
 
 			for ( int i = 0; i < threadsCount - 1; i++ )
 			{
-				sum = count;
 				int endIndex = startIndex + chunkLen;
-				t = new Task( vector, startIndex, endIndex, sum );
+				t = new Task( vector, startIndex, endIndex );
 				pool.execute( t );
-				count = t.getSum();
-				// System.out.println( "Sum test: " + i + " " + count );
 				startIndex = endIndex;
 			}
 
-			// int endIndex = startIndex + chunkLen + lastChunkLen;
 			int endIndex = arraySize;
-			t = new Task( vector, startIndex, endIndex, sum );
+			t = new Task( vector, startIndex, endIndex );
 			pool.execute( t );
 
 			// method that shutdowns the threadpool
@@ -62,7 +59,7 @@ class Program
 			// method waits util all tasks in the thread pool
 			// have completed execution or until specifieed timeout
 			pool.awaitTermination( Long.MAX_VALUE, TimeUnit.NANOSECONDS );
-			System.out.println( "Sum by threads: " + t.getSum() );
+			System.out.println( "Sum by threads: " + sum );
 		}
 		catch ( InterruptedException e )
 		{
