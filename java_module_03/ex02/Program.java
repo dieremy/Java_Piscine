@@ -4,7 +4,8 @@ class Program
 {
     private static int arraySize;
     private static int threadsCount;
-    private static int chunks;
+    private static int chunkLen;
+    private static int lastChunkLen;
 	private static int sum;
 
     public static void main( String[] args )
@@ -13,13 +14,15 @@ class Program
 		{
 			if ( !checkArguments( args ) )
 				System.exit( -1 );
-            System.out.println( "arraySize: " + arraySize + "\tthreadsCount: " + threadsCount );
+            // System.out.println( "arraySize: " + arraySize + "\tthreadsCount: " + threadsCount );
             
-			System.out.println();
-			int[] vector = initArray();
-			for ( int i = 0; i < vector.length; i++ )
-				System.out.println( "vector[i]: " + vector[i] );
-            System.out.println();
+			// System.out.println();
+			int[] vector = startArray();
+
+			divideInChunks();
+			// for ( int i = 0; i < vector.length; i++ )
+			// 	System.out.println( "vector[i]: " + vector[i] );
+            // System.out.println();
 			
 			System.out.println( "Sum: " + sum );
 		}
@@ -30,7 +33,7 @@ class Program
 		}
 	}
 
-	public static int[] initArray()
+	public static int[] startArray()
 	{
 		Random	r = new Random();
 		int[]	vector = new int[arraySize];
@@ -41,6 +44,16 @@ class Program
 			sum += vector[i];
 		}
 		return ( vector );
+	}
+
+	public static void	divideInChunks()
+	{
+		chunkLen = arraySize / threadsCount;
+
+		if ( ( arraySize % threadsCount ) != 0 )
+			lastChunkLen = arraySize - ( chunkLen * threadsCount );
+		else
+			lastChunkLen = 0;
 	}
 
 	public static boolean checkArguments( String[] args )
