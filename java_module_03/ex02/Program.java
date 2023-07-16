@@ -1,4 +1,9 @@
+package ex02;
+
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ExecutorService;
 
 class Program
 {
@@ -6,7 +11,7 @@ class Program
     private static int threadsCount;
     private static int chunkLen;
     private static int lastChunkLen;
-	private static int sum;
+	private static volatile int sum;
 
     public static void main( String[] args )
 	{
@@ -14,23 +19,65 @@ class Program
 		{
 			if ( !checkArguments( args ) )
 				System.exit( -1 );
-            // System.out.println( "arraySize: " + arraySize + "\tthreadsCount: " + threadsCount );
-            
-			// System.out.println();
+
 			int[] vector = startArray();
 
 			divideInChunks();
+
+			executeTasks( vector );
 			// for ( int i = 0; i < vector.length; i++ )
 			// 	System.out.println( "vector[i]: " + vector[i] );
             // System.out.println();
 			
-			System.out.println( "Sum: " + sum );
 		}
 		catch ( Exception e )
 		{
 			System.out.println( "Invalid input. Enter a valid number." );
 			System.out.println( e.getMessage() );
 		}
+	}
+
+	public static void	executeTasks( int[] vector )
+	{
+		try
+		{
+			ExecutorService pool = Executors.newFixedThreadPool( threadsCount );
+			int startIndex = 0;
+
+			for ( int i = 0; i < threadsCount - 1; i++ )
+			{
+				int endIndex = startIndex + chunkLen;
+				pool.execute( new Task( vector, startIndex, endIndex ) );
+				startIndex = endIndex;
+			}
+
+			// int endIndex = startIndex + chunkLen + lastChunkLen;
+			int endIndex = arraySize;
+			pool.execute( new Task( vector, startIndex, endIndex ) );
+
+			// method that shutdowns the threadpool
+			pool.shutdown();
+			
+			// method waits util all tasks in the thread pool
+			// have completed execution or until specifieed timeout
+			pool.awaitTermination( Long.MAX_VALUE, TimeUnit.NANOSECONDS );
+			System.out.println( "Sum by threads: " + sum );
+		}
+		catch ( InterruptedException e )
+		{
+			System.out.println( "Interrupted exception in method." );
+			System.out.println( e.getMessage() );
+		}
+	}
+
+	public static void	divideInChunks()
+	{
+		chunkLen = arraySize / threadsCount;
+
+		if ( ( arraySize % threadsCount ) != 0 )
+			lastChunkLen = ( arraySize - ( chunkLen * threadsCount ) ) + chunkLen;
+		else
+			lastChunkLen = 0;
 	}
 
 	public static int[] startArray()
@@ -43,17 +90,9 @@ class Program
 			vector[i] = r.nextInt(50);
 			sum += vector[i];
 		}
+
+		System.out.println( "Sum: " + sum );
 		return ( vector );
-	}
-
-	public static void	divideInChunks()
-	{
-		chunkLen = arraySize / threadsCount;
-
-		if ( ( arraySize % threadsCount ) != 0 )
-			lastChunkLen = arraySize - ( chunkLen * threadsCount );
-		else
-			lastChunkLen = 0;
 	}
 
 	public static boolean checkArguments( String[] args )
