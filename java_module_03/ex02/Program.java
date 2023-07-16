@@ -5,14 +5,14 @@ import java.util.concurrent.ExecutorService;
 
 class Program
 {
-    private static int arraySize;
-    private static int threadsCount;
-    private static int chunkLen;
-    private static int lastChunkLen;
+	private static int arraySize;
+	private static int threadsCount;
+	private static int chunkLen;
+	private static int lastChunkLen;
 	public static int sum;
 	public static final Object lock = new Object();
 
-    public static void main( String[] args )
+	public static void main( String[] args )
 	{
 		try
 		{
@@ -38,27 +38,25 @@ class Program
 		{
 			ExecutorService pool = Executors.newFixedThreadPool( threadsCount );
 			int startIndex = 0;
-			Task t;
+			Thread[] t = new Thread[threadsCount];
 			int count = 0;
 			sum = 0;
 
 			for ( int i = 0; i < threadsCount - 1; i++ )
 			{
 				int endIndex = startIndex + chunkLen;
-				t = new Task( vector, startIndex, endIndex );
-				pool.execute( t );
+				t[i] = new Thread( new Task( vector, startIndex, endIndex, i + 1 ) );
+				pool.execute( t[i] );
 				startIndex = endIndex;
 			}
 
 			int endIndex = arraySize;
-			t = new Task( vector, startIndex, endIndex );
-			pool.execute( t );
+			t[threadsCount - 1] = new Thread( new Task( vector, startIndex, endIndex, threadsCount ) );
 
-			// method that shutdowns the threadpool
+			pool.execute( t[threadsCount - 1] );
 			pool.shutdown();
-			// method waits util all tasks in the thread pool
-			// have completed execution or until specifieed timeout
 			pool.awaitTermination( Long.MAX_VALUE, TimeUnit.NANOSECONDS );
+
 			System.out.println( "Sum by threads: " + sum );
 		}
 		catch ( InterruptedException e )
@@ -85,7 +83,7 @@ class Program
 
 		for ( int i = 0; i < vector.length; i++ )
 		{
-			vector[i] = r.nextInt(50);
+			vector[i] = r.nextInt( 1000 );
 			sum += vector[i];
 		}
 
@@ -104,18 +102,25 @@ class Program
 		{
 			arraySize = Integer.parseInt( args[0].substring( 12 ) );
 			threadsCount = Integer.parseInt( args[1].substring( 15 ) );
-            if ( arraySize > 2_000_000 || arraySize < 1 || threadsCount < 1 || threadsCount > arraySize )
-            {
-                System.err.println( "Illegal argument for arraySize or threadsCount" );
-                return ( false );
-            }
+			if ( arraySize > 2_000_000 || arraySize < 1 || threadsCount < 1 || threadsCount > arraySize )
+			{
+				System.err.println( "Illegal argument for arraySize or threadsCount" );
+				return ( false );
+			}
 		}
 		catch ( NumberFormatException e )
 		{
 			System.out.println( "Invalid input. Enter a valid number." );
 			System.out.println( e.getMessage() );
-            return ( false );
+			return ( false );
 		}
-        return ( true );
-    }
+		return ( true );
+	}
 }
+
+// pool.shutdown();
+// method that shutdowns the threadpool
+
+// pool.awaitTermination( Long.MAX_VALUE, TimeUnit.NANOSECONDS );
+// method waits util all tasks in the thread pool
+// have completed execution or until specifieed timeout
