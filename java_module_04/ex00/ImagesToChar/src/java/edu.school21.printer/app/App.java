@@ -4,13 +4,13 @@ import edu.school21.printer.logic.Logic;
 
 class App
 {
+	private static char white;
+	private static char black;
+	private static String imgPath;
+
 	public static void main( String[] args )
 	{
-		checkArgs( args );
-
-		char white = args[0].charAt( 0 );
-		char black = args[1].charAt( 0 );
-		String imgPath = args[2];
+		parseInput( args );
 
 		int[][] vector = Logic.plotBMPImage( white, black, imgPath );
 
@@ -22,12 +22,16 @@ class App
 		}
 	}
 
-	public static void checkArgs( String[] args )
+	public static void parseInput( String[] args )
 	{
 		if ( args.length != 3 )
 		{
 			System.out.println( "Wrong number of arguments." );
 			System.exit( -1 );
 		}
+
+		white = args[0].charAt( 0 );
+		black = args[1].charAt( 0 );
+		imgPath = args[2];
 	}
 }
