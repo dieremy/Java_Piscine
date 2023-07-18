@@ -27,11 +27,3 @@ class App
 		black = args[1].charAt( 0 );
 	}
 }
-
-// Exception in thread "main" java.io.FileNotFoundException: resources/image.bmp (No such file or directory)
-// 	at java.base/java.io.FileInputStream.open0(Native Method)
-// 	at java.base/java.io.FileInputStream.open(FileInputStream.java:216)
-// 	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:157)
-// 	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:111)
-// 	at edu.school21.printer.logic.Logic.<init>(Logic.java:22)
-// 	at edu.school21.printer.app.App.main(App.java:15)

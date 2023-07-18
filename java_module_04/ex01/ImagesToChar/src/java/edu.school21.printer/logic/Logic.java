@@ -49,3 +49,22 @@ public class Logic
 		}	
 	}
 }
+
+// Logic.class refers to the class itself
+
+// getClassLoader() returns the class loader
+// associated with the Logic class.
+// class loader loads classes during runtime
+
+// getResourceAsStream() method of the class loader that retrieves
+// a resource file as an argument and returns an InputStream object
+
+
+// jar file is a package file format used to aggregate
+// multiple Java class files, resource files
+// and metadata into a single file 
+
+// -cfm => Create; File; M --manifest : includes manifest info from
+// manifest file
+
+// manifest.txt specifies the output JAR file name and location
