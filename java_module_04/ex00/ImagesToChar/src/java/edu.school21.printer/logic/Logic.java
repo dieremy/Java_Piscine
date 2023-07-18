@@ -1,7 +1,7 @@
 package edu.school21.printer.logic;
 
-import java.io.FileInputStream;
 import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
 import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.awt.*;
@@ -9,21 +9,29 @@ import java.awt.*;
 public class Logic
 {
 	private static BufferedImage image;
-	private static int width;
+	private static char white;
+	private static char black;
 	private static int height;
+	private static int width;
 	private static int color;
 	private static int y;
 	private static int x;
 
-	public static int[][] plotBMPImage( char white, char black, String path ) throws IOException
+	public Logic( char white, char black, String path ) throws IOException
 	{
-		image = ImageIO.read( new FileInputStream( path ) );
+		this.image = ImageIO.read( new FileInputStream( path ) );
 		
-		width = image.getWidth();
-		height = image.getHeight();
+		this.width = image.getWidth();
+		this.height = image.getHeight();
 
-		int[][] matrix = new int[width][height];
+		this.white = white;
+		this.black = black;
 
+		this.plotImage();
+	}
+
+	public void plotImage()
+	{
 		y = -1;
 		while ( ++y < height )
 		{
@@ -32,11 +40,11 @@ public class Logic
 			{
 				color = image.getRGB( x, y );
 				if ( color == Color.BLACK.getRGB() )
-					matrix[x][y] = black;
+					System.out.printf( "%c", black );
 				else if ( color == Color.WHITE.getRGB() )
-					matrix[x][y] = white;
+					System.out.printf( "%c", white );
 			}
+			System.out.println();
 		}	
-		return ( matrix );
 	}
 }

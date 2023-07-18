@@ -5,26 +5,15 @@ import java.io.IOException;
 
 class App
 {
+	private static String imgPath;
 	private static char white;
 	private static char black;
-	private static String imgPath;
-	private static int y;
-	private static int x;
 
 	public static void main( String[] args ) throws IOException
 	{
 		parseInput( args );
 
-		int[][] vector = Logic.plotBMPImage( white, black, imgPath );
-
-		y = -1;
-		while ( ++y < vector.length )
-		{
-			x = -1;
-			while ( ++x < vector[y].length )
-				System.out.printf( "%c", vector[x][y] );
-			System.out.printf( "\n" );
-		}
+		Logic logic = new Logic( white, black, imgPath );
 	}
 
 	public static void parseInput( String[] args )
