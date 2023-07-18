@@ -12,7 +12,7 @@ class App
 	{
 		parseInput( args );
 
-		Logic logic = new Logic( white, black, "/resources/image.bmp" );
+		Logic logic = new Logic( white, black, "resources/image.bmp" );
 	}
 
 	public static void parseInput( String[] args )

@@ -2,6 +2,7 @@ package edu.school21.printer.logic;
 
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
+import java.io.File;
 import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.awt.*;
@@ -19,7 +20,7 @@ public class Logic
 
 	public Logic( char white, char black, String path ) throws IOException
 	{
-		this.image = ImageIO.read( Logic.class.getResource( path ) );
+		this.image = ImageIO.read( Logic.class.getClassLoader().getResourceAsStream( path ) );
 		
 		this.width = image.getWidth();
 		this.height = image.getHeight();
