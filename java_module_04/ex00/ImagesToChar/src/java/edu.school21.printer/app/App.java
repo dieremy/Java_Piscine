@@ -1,23 +1,28 @@
 package edu.school21.printer.app;
 
 import edu.school21.printer.logic.Logic;
+import java.io.IOException;
 
 class App
 {
 	private static char white;
 	private static char black;
 	private static String imgPath;
+	private static int y;
+	private static int x;
 
-	public static void main( String[] args )
+	public static void main( String[] args ) throws IOException
 	{
 		parseInput( args );
 
 		int[][] vector = Logic.plotBMPImage( white, black, imgPath );
 
-		for ( int i = 0; i < vector.length; i++ )
+		y = -1;
+		while ( ++y < vector.length )
 		{
-			for ( int j = 0; j < vector[i].length; j++ )
-				System.out.printf( "%c", vector[i][j] );
+			x = -1;
+			while ( ++x < vector[y].length )
+				System.out.printf( "%c", vector[x][y] );
 			System.out.printf( "\n" );
 		}
 	}
