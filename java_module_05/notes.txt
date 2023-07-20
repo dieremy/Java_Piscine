@@ -1,0 +1,17 @@
+when using JDBC, we need to install the driver of the database we are using, 
+which in this case is PostgreSQL JDBC driver
+
+PostgreSQL JDBC driver ( database driver )
+is an implementation of the JDBC API interface
+
+|---------------------------------------------------------------|
+|                      Java Application                         |
+|---------------------------------------------------------------|
+|                                                               |
+|   Application     <==>     JDBC      <==>     JDBC            |
+|      code                   API                API            | <=======>  Postgres DB
+|                                                               |
+|---------------------------------------------------------------|
+
+To EXECUTE QUERIES, we need to create a connection to the database.
+The preferred way to get that is using a DataSource object 
