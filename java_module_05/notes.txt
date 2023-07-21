@@ -17,3 +17,5 @@ To EXECUTE QUERIES, we need to create a connection to the database.
 The preferred way to get that is using a DataSource object 
 
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
+
+mvn archetype:generate -DgroupId=edu.school21.chat -DartifactId=Chat -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.4 -DinteractiveMode=false
