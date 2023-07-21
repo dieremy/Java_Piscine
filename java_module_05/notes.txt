@@ -15,3 +15,5 @@ is an implementation of the JDBC API interface
 
 To EXECUTE QUERIES, we need to create a connection to the database.
 The preferred way to get that is using a DataSource object 
+
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
