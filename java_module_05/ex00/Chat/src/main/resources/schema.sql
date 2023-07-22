@@ -10,11 +10,11 @@ CREATE TABLE IF NOT EXISTS chat.users
 );
 
 CREATE TABLE IF NOT EXISTS chat.rooms
-{
+(
 	id SERIAL PRIMARY KEY,
 	name TEXT UNIQUE NOT NULL,
 	owner INTEGER REFERENCES chat.users( id ) NOT NULL
-};
+);
 
 CREATE TABLE IF NOT EXISTS chat.messages
 (
@@ -24,6 +24,4 @@ CREATE TABLE IF NOT EXISTS chat.messages
 	text TEXT NOT NULL,
 	timestamp TIMESTAMP NOT NULL
 );
-
-DROP USER root;
-CREATE USER root WITH LOGIN PASSWORD '0';
+	

@@ -20,19 +20,32 @@
             <version>4.13.1</version> <!-- Use a newer version of JUnit -->
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.23</version> <!-- Replace with the latest version of the PostgreSQL driver -->
+        </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <!-- Update Maven Compiler Plugin version -->
+            <!-- Update Maven Compiler Plugin version and Java version -->
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version> <!-- Use the latest version of the Compiler Plugin -->
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>3.0.0</version> <!-- Use the latest version of Exec Maven Plugin -->
+            <executions>
+                <execution>
+                    <id>java-execution</id>
+                    <phase>verify</phase>
+                    <goals>
+                        <goal>java</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <configuration>
+                <mainClass>edu.school21.chat.models.Main</mainClass> <!-- Specify the default main class -->
+            </configuration>
             </plugin>
         </plugins>
     </build>
