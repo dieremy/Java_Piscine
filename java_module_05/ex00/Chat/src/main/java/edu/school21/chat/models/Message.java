@@ -1,10 +1,11 @@
-package eud.school21.chat.models;
+package edu.school21.chat.models;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Message
 {
-    private long ID;
+    private long id;
     private User author;
     private Chatroom room;
     private String text;
@@ -12,7 +13,7 @@ public class Message
 
     public Message( long id, User author, Chatroom room, String text, LocalDateTime localDateTime )
     {
-        this.ID = id;
+        this.id = id;
         this.author = author;
         this.room = room;
         this.text = text;
@@ -21,7 +22,7 @@ public class Message
 
     public void setId( long id )
     {
-        this.ID = id;
+        this.id = id;
     }
 
     public void setAuthor( User author )
@@ -46,7 +47,7 @@ public class Message
 
     public long getId()
     {
-        return ( this.ID );
+        return ( this.id );
     }
 
     public User getAuthor()
@@ -77,7 +78,7 @@ public class Message
         if ( o == null || getClass() != o.getClass() )
             return ( false );
         Message message = ( Message ) o;
-        return ( Object.equals( ID, message.id )
+        return ( Objects.equals( id, message.id )
             && Objects.equals( author, message.author )
             && Objects.equals( room, message.room )
             && Objects.equals( text, message.text )
@@ -87,14 +88,14 @@ public class Message
     @Override
     public int hashCode()
     {
-        return ( Objects.hash( ID, author, room, text, localDateTime ) );
+        return ( Objects.hash( id, author, room, text, localDateTime ) );
     }
 
     @Override
     public String toString()
     {
         return ( "Chatroom{" +
-            "id=" + ID +
+            "id=" + id +
             ", author=" + author +
             ", room=" + room +
             ", text=" + text +

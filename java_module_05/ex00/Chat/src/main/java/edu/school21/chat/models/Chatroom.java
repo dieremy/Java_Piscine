@@ -1,17 +1,18 @@
 package edu.school21.chat.models;
 
 import java.util.LinkedList;
+import java.util.Objects;
 
 public class Chatroom
 {
-    private Long ID;
+    private Long id;
     private String name;
     private User owner;
     private LinkedList<Message> messages;
 
     public Chatroom( long id, String name, User owner, LinkedList<Message> messages )
     {
-        this.ID = id;
+        this.id = id;
         this.name = name;
         this.owner = owner;
         this.messages = messages;
@@ -19,7 +20,7 @@ public class Chatroom
 
     public void setId( long id )
     {
-        this.ID = id;
+        this.id = id;
     }
 
     public void setName( String name )
@@ -34,7 +35,7 @@ public class Chatroom
 
     public long getId()
     {
-        return ( this.ID );
+        return ( this.id );
     }
 
     public String getName()
@@ -55,7 +56,7 @@ public class Chatroom
         if ( o == null || getClass() != o.getClass() )
             return ( false );
         Chatroom chatroom = ( Chatroom ) o;
-        return ( Object.equals( ID, chatroom.id )
+        return ( Objects.equals( id, chatroom.id )
             && Objects.equals( name, chatroom.name )
             && Objects.equals( owner, chatroom.owner )
             && Objects.equals( messages, chatroom.messages ) ); 
@@ -64,14 +65,14 @@ public class Chatroom
     @Override
     public int hashCode()
     {
-        return ( Objects.hash( ID, name, owner, messages ) );
+        return ( Objects.hash( id, name, owner, messages ) );
     }
 
     @Override
     public String toString()
     {
         return ( "Chatroom{" +
-            "id=" + ID +
+            "id=" + id +
             ", name=" + name +
             ", owner=" + owner +
             ", roomMessages=" + messages + "}");

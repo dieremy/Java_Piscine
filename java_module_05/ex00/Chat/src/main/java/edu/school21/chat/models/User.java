@@ -1,10 +1,11 @@
-package edu.school21.cat.models;
+package edu.school21.chat.models;
 
 import java.util.LinkedList;
+import java.util.Objects;
 
 public class User
 {
-    private static long ID;
+    private static long id;
     private static String login;
     private static String password;
     private static LinkedList<Chatroom> createdRooms;
@@ -12,7 +13,7 @@ public class User
 
     public User( long id, String login, String password, LinkedList<Chatroom> createdRooms, LinkedList<Chatroom> socialRooms )
     {
-        this.ID = id;
+        this.id = id;
         this.login = login;
         this.password = password;
         this.createdRooms = createdRooms;
@@ -21,7 +22,7 @@ public class User
 
     public void setId( long id )
     {
-        this.ID = id;
+        this.id = id;
     }
 
     public void setLogin( String login )
@@ -46,7 +47,7 @@ public class User
 
     public long getId()
     {
-        return ( this.ID );
+        return ( this.id );
     }
 
     public String getLogin()
@@ -77,7 +78,7 @@ public class User
         if ( o == null || getClass() != o.getClass() )
             return ( false );
         User user = ( User ) o;
-        return ( Object.equals( ID, user.id )
+        return ( Objects.equals( id, user.id )
             && Objects.equals( login, user.login )
             && Objects.equals( password, user.password )
             && Objects.equals( createdRooms, user.createdRooms )
@@ -87,14 +88,14 @@ public class User
     @Override
     public int hashCode()
     {
-        return ( Objects.hash( ID, login, password, createdRooms, socialRooms ) );
+        return ( Objects.hash( id, login, password, createdRooms, socialRooms ) );
     }
 
     @Override
     public String toString()
     {
         return ( "Chatroom{" +
-            "id=" + ID +
+            "id=" + id +
             ", login=" + login +
             ", password=" + password +
             ", createdRooms=" + createdRooms +
