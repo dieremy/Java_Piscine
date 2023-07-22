@@ -17,23 +17,23 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.13.1</version> <!-- Use a newer version of JUnit -->
+            <version>4.13.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.2.23</version> <!-- Replace with the latest version of the PostgreSQL driver -->
+            <version>42.2.23</version>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <!-- Update Maven Compiler Plugin version and Java version -->
+            <!-- Maven Compiler Plugin version and Java version -->
             <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>exec-maven-plugin</artifactId>
-            <version>3.0.0</version> <!-- Use the latest version of Exec Maven Plugin -->
+            <version>3.0.0</version>
             <executions>
                 <execution>
                     <id>java-execution</id>
