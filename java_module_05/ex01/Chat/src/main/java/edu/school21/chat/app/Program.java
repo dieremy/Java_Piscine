@@ -68,7 +68,8 @@ public class Program
 				}
 				catch ( Exception e )
 				{
-					System.out.println( e.getMessage() );
+					System.out.println( "Wrong input: " + e.getMessage() );
+					System.exit( -1 );
 				}
 			}
 		}
