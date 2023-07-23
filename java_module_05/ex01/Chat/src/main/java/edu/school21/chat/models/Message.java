@@ -94,8 +94,8 @@ public class Message
     @Override
     public String toString()
     {
-        return ( "Message : {\n" +
-            "id=" + id +
+        return ( "Message : {" +
+            "\nid=" + id +
             "\nauthor={" + author +
             "\nroom={" + room +
             "\ntext=" + text +
