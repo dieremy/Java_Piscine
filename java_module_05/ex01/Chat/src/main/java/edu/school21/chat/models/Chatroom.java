@@ -1,6 +1,6 @@
 package edu.school21.chat.models;
 
-import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 public class Chatroom
@@ -8,9 +8,9 @@ public class Chatroom
     private Long id;
     private String name;
     private User owner;
-    private LinkedList<Message> messages;
+    private List<Message> messages;
 
-    public Chatroom( long id, String name, User owner, LinkedList<Message> messages )
+    public Chatroom( long id, String name, User owner, List<Message> messages )
     {
         this.id = id;
         this.name = name;
@@ -71,10 +71,9 @@ public class Chatroom
     @Override
     public String toString()
     {
-        return ( "Chatroom{" +
-            "id=" + id +
+        return ( "id=" + id +
             ", name=" + name +
-            ", owner=" + owner +
-            ", roomMessages=" + messages + "}");
+            ", creator=" + owner +
+            ", messages=" + messages + "},");
     }
 }

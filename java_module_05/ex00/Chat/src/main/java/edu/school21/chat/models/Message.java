@@ -94,7 +94,7 @@ public class Message
     @Override
     public String toString()
     {
-        return ( "Chatroom{" +
+        return ( "Message : {" +
             "id=" + id +
             ", author=" + author +
             ", room=" + room +

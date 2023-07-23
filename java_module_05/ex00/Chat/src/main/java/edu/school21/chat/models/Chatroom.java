@@ -71,7 +71,7 @@ public class Chatroom
     @Override
     public String toString()
     {
-        return ( "Chatroom{" +
+        return ( "Chatroom : {" +
             "id=" + id +
             ", name=" + name +
             ", owner=" + owner +

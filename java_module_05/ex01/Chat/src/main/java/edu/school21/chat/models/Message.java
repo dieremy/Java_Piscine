@@ -94,11 +94,11 @@ public class Message
     @Override
     public String toString()
     {
-        return ( "Chatroom{" +
+        return ( "Message : {\n" +
             "id=" + id +
-            ", author=" + author +
-            ", room=" + room +
-            ", text=" + text +
-            ", localDateTime=" + localDateTime + "}");
+            "\nauthor={" + author +
+            "\nroom={" + room +
+            "\ntext=" + text +
+            "\ndateTime=" + localDateTime + "\n}" );
     }
 }

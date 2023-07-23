@@ -1,6 +1,6 @@
 package edu.school21.chat.models;
 
-import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 public class User
@@ -8,10 +8,10 @@ public class User
     private static long id;
     private static String login;
     private static String password;
-    private static LinkedList<Chatroom> createdRooms;
-    private static LinkedList<Chatroom> socialRooms;
+    private static List<Chatroom> createdRooms;
+    private static List<Chatroom> socialRooms;
 
-    public User( long id, String login, String password, LinkedList<Chatroom> createdRooms, LinkedList<Chatroom> socialRooms )
+    public User( long id, String login, String password, List<Chatroom> createdRooms, List<Chatroom> socialRooms )
     {
         this.id = id;
         this.login = login;
@@ -35,12 +35,12 @@ public class User
         this.password = password;
     }
 
-    public void setCreatedRooms( LinkedList<Chatroom> createdRooms )
+    public void setCreatedRooms( List<Chatroom> createdRooms )
     {
         this.createdRooms = createdRooms;
     }
 
-    public void setSocialRooms( LinkedList<Chatroom> socialRooms )
+    public void setSocialRooms( List<Chatroom> socialRooms )
     {
         this.socialRooms = socialRooms;
     }
@@ -60,12 +60,12 @@ public class User
         return ( this.password );
     }
 
-    public LinkedList<Chatroom> getCreatedRooms()
+    public List<Chatroom> getCreatedRooms()
     {
         return ( this.createdRooms );
     }
 
-    public LinkedList<Chatroom> getSocialRooms()
+    public List<Chatroom> getSocialRooms()
     {
         return ( this.socialRooms );
     }
@@ -94,11 +94,10 @@ public class User
     @Override
     public String toString()
     {
-        return ( "Chatroom{" +
-            "id=" + id +
+        return ( "id=" + id +
             ", login=" + login +
             ", password=" + password +
             ", createdRooms=" + createdRooms +
-            ", socialRooms=" + socialRooms + "}");
+            ", rooms=" + socialRooms + "},");
     }
 }
