@@ -55,35 +55,5 @@ public class Program
 		messagesRepo = new MessagesRepositoryJdbcImpl( jDataSource.getDataSource() );
 		messagesRepo.save( message );
 		System.out.println( message.getId() );
-			// Scanner scan = new Scanner( System.in );
-
-			// while ( true )
-			// {
-			// 	System.out.println( "Enter a message ID" );
-			// 	try
-			// 	{
-			// 		String input = scan.nextLine();
-			// 		if ( input.equals( "exit" ) )
-			// 		{
-			// 			scan.close();
-			// 			System.exit( 0 );
-			// 		}
-			// 		Long id = Long.parseLong( input );
-			// 		Optional<Message> message = messagesRepo.findById( id );
-			// 		if ( message.isPresent() )
-			// 			System.out.println( message.get() );
-			// 		else
-			// 			System.out.println( "Message not found." );
-			// 	}
-			// 	catch ( Exception e )
-			// 	{
-			// 		System.out.println( e.getMessage() );
-			// 	}
-			// }
-		// }
-		// catch ( FileNotFoundException e )
-		// {
-		// 	System.out.println( e.getMessage() );
-		// }
 	}
 }
