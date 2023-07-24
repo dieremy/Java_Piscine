@@ -50,37 +50,28 @@ public class Program
 			updateQueries( "data.sql" );
 			messagesRepo = new MessagesRepositoryJdbcImpl( jDataSource.getDataSource() );
 			Scanner scan = new Scanner( System.in );
-
-			while ( true )
+			
+			System.out.println( "Enter a message ID" );
+			try
 			{
-				System.out.println( "Enter a message ID" );
-				try
-				{
-					String input = scan.nextLine();
-					if ( input.equals( "exit" ) )
-					{
-						scan.close();
-						jDataSource.getClose();
-						break ;
-					}
-					Long id = Long.parseLong( input );
-					Optional<Message> message = messagesRepo.findById( id );
-					if ( message.isPresent() )
-						System.out.println( message.get() );
-					else
-						System.out.println( "Message not found." );
-				}
-				catch ( Exception e )
-				{
-					System.out.println( "Wrong input: " + e.getMessage() );
-					jDataSource.getClose();
-					break ;
-				}
+				String input = scan.nextLine();
+				Long id = Long.parseLong( input );
+				Optional<Message> message = messagesRepo.findById( id );
+				if ( message.isPresent() )
+					System.out.println( message.get() );
+				else
+					System.out.println( "Message not found." );
+			}
+			catch ( Exception e )
+			{
+				System.out.println( "Wrong input: " + e.getMessage() );
+				jDataSource.getClose();
 			}
 		}
 		catch ( FileNotFoundException e )
 		{
 			System.out.println( e.getMessage() );
 		}
+		jDataSource.getClose();
 	}
 }
