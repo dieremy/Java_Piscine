@@ -53,12 +53,19 @@ public class Program
 		
 		User author = new User( 3L, "user", "user", new ArrayList<>(), new ArrayList<>() );
 		Chatroom room = new Chatroom( 4L, "room", author, new ArrayList<>() );
-		Message message = new Message( null, author, room, "Hello World!", LocalDateTime.now() );
 		
 		messagesRepo = new MessagesRepositoryJdbcImpl( jDataSource.getDataSource() );
-		messagesRepo.save( message );
-		
-		System.out.println( message.getId() );
+
+		Optional <Message> messageOp = messagesRepo.findById( 4L );
+		if ( messageOp.isPresent() )
+		{
+			Message message = messageOp.get();
+			message.setText( "Whatever he said." );
+			// message.setLocalDateTime( LocalDateTime.now() );
+			message.setLocalDateTime( null );
+			messagesRepo.update( message );
+			System.out.printf( "Successfully updated table.\n" );
+		}
 		jDataSource.getClose();
 	}
 }

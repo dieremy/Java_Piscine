@@ -22,6 +22,6 @@ CREATE TABLE IF NOT EXISTS chat.messages
 	author INTEGER REFERENCES chat.users( id ) NOT NULL,
 	room INTEGER REFERENCES chat.rooms( id ) NOT NULL,
 	text TEXT NOT NULL,
-	timestamp TIMESTAMP NOT NULL
+	timestamp TIMESTAMP
 );
 	

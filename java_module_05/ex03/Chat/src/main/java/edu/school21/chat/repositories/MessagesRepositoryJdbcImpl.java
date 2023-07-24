@@ -125,6 +125,35 @@ public class MessagesRepositoryJdbcImpl implements MessagesRepository
 			System.out.println( e.getMessage() );
 		}
 	}
+
+	@Override
+	public void update( Message message )
+	{
+		final String updateQuery = "UPDATE chat.messages SET author = ?, room = ?, text = ?, timestamp = ? WHERE id = ?";
+		try ( Connection conn = datasource.getConnection() )
+		{
+			try ( PreparedStatement statement = conn.prepareStatement( updateQuery ) )
+			{
+				statement.setLong( 1, message.getAuthor().getId() );
+				statement.setLong( 2, message.getRoom().getId() );
+				statement.setString( 3, message.getText() );
+				try
+				{
+					statement.setTimestamp( 4, Timestamp.valueOf( message.getLocalDateTime() ) );
+				}
+				catch ( NullPointerException e )
+				{
+					statement.setNull( 4, java.sql.Types.DATE );
+				}
+				statement.setLong( 5, message.getId() );
+				statement.execute();
+			}
+        }
+		catch ( SQLException e )
+		{
+			System.out.println( e.getMessage() );
+		}
+	}
 }
 
 // Optional.of() method of java.util.Optional class is used to get an instance
