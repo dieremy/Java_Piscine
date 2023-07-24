@@ -76,9 +76,9 @@ public class MessagesRepositoryJdbcImpl implements MessagesRepository
 			if ( !rs.next() )
 				return ( Optional.empty() );
 
-			findUser( rs.getLong( 2 ) );
-			findChatroom( rs.getLong( 3 ) );
-			return ( Optional.of( new Message( id, this.user, this.chatRoom,
+			findUser( rs.getLong( "author" ) );
+			findChatroom( rs.getLong( "room" ) );
+			return ( Optional.of( new Message( rs.getLong( "id" ), this.user, this.chatRoom,
 									rs.getString( "text" ), rs.getTimestamp( "timestamp" ).toLocalDateTime() ) ) );
 		}
 		catch ( SQLException e )
@@ -90,4 +90,4 @@ public class MessagesRepositoryJdbcImpl implements MessagesRepository
 }
 
 // Optional.of() method of java.util.Optional class is used to get an instance
-// of this Optional class  with the specified value of the specified type 
+// of this Optional class with the specified value of the specified type 

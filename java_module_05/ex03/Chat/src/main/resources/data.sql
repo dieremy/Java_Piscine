@@ -17,8 +17,8 @@ ON CONFLICT DO NOTHING;
 
 INSERT INTO chat.messages ( author, room, text, timestamp ) VALUES
 ( 1, 1, 'Hello buddy', '2020-12-21 01:01:01' ),
-( 2, 3, 'lol', '2020-12-21 02:02:02' ),
-( 3, 4 , 'lmao', '2020-12-21 03:03:03'),
-( 4, 5 , 'how are you?', '2020-12-21 04:04:04'),
-( 5, 2 , 'See you there', '2020-12-21 05:05:05')
+( 2, 2, 'lol', '2020-12-21 02:02:02' ),
+( 3, 3 , 'lmao', '2020-12-21 03:03:03'),
+( 4, 4 , 'how are you?', '2020-12-21 04:04:04'),
+( 5, 5 , 'See you there', '2020-12-21 05:05:05')
 ON CONFLICT DO NOTHING;
