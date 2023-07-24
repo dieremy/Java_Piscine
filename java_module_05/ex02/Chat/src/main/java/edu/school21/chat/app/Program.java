@@ -19,6 +19,9 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.time.LocalDateTime;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+
 public class Program
 {
 	private static JdbcDataSource jDataSource;
@@ -54,6 +57,8 @@ public class Program
 		
 		messagesRepo = new MessagesRepositoryJdbcImpl( jDataSource.getDataSource() );
 		messagesRepo.save( message );
+		
 		System.out.println( message.getId() );
+		jDataSource.getClose();
 	}
 }

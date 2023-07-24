@@ -27,4 +27,9 @@ public class JdbcDataSource
 	{
 		return ( hikariDataSource.getConnection() );
 	}
+
+	public void getClose()
+	{
+		hikariDataSource.close();
+	}
 }

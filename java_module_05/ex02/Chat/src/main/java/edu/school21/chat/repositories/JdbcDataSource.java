@@ -13,11 +13,9 @@ public class JdbcDataSource
 	{
 		HikariConfig hikariConfig = new HikariConfig();
 
-        hikariConfig.setJdbcUrl("jdbc:postgresql://localhost:5432/postgres");
-        hikariConfig.setUsername("postgres");
-        hikariConfig.setPassword("123456");
-        hikariConfig.setThreadFactory(Thread::new);
-        hikariConfig.setDriverClassName("org.postgresql.Driver");
+        hikariConfig.setJdbcUrl( "jdbc:postgresql://localhost:5432/postgres" );
+        hikariConfig.setUsername( "postgres" );
+        hikariConfig.setPassword( "123456" );
 		hikariDataSource = new HikariDataSource( hikariConfig );
 	}
 
@@ -29,5 +27,10 @@ public class JdbcDataSource
 	public Connection getConnection() throws SQLException
 	{
 		return ( hikariDataSource.getConnection() );
+	}
+
+	public void getClose()
+	{
+		hikariDataSource.close();
 	}
 }

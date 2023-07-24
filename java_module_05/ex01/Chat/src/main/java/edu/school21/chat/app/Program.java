@@ -15,6 +15,9 @@ import java.sql.Statement;
 import java.util.Optional;
 import java.util.Scanner;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+
 public class Program
 {
 	private static JdbcDataSource jDataSource;
@@ -57,7 +60,8 @@ public class Program
 					if ( input.equals( "exit" ) )
 					{
 						scan.close();
-						System.exit( 0 );
+						jDataSource.getClose();
+						break ;
 					}
 					Long id = Long.parseLong( input );
 					Optional<Message> message = messagesRepo.findById( id );
@@ -69,7 +73,8 @@ public class Program
 				catch ( Exception e )
 				{
 					System.out.println( "Wrong input: " + e.getMessage() );
-					System.exit( -1 );
+					jDataSource.getClose();
+					break ;
 				}
 			}
 		}

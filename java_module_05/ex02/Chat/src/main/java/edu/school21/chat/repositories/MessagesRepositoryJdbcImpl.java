@@ -96,25 +96,26 @@ public class MessagesRepositoryJdbcImpl implements MessagesRepository
 	public void save( Message message )
 	{
 		final String insertQuery = "INSERT INTO chat.messages ( author, room, text, timestamp ) VALUES ( ?, ?, ?, ? ) RETURNING *";
+		
 		try ( Connection conn = datasource.getConnection() )
 		{
 			try ( PreparedStatement statement = conn.prepareStatement( insertQuery ) )
 			{
-				if (message.getAuthor() != null)
-					statement.setLong(1, message.getAuthor().getId());
+				if ( message.getAuthor() != null )
+					statement.setLong( 1, message.getAuthor().getId() );
 				else
 					statement.setNull(1, Types.BIGINT); // Set author to NULL in the database
 				
-				if (message.getRoom() != null)
-					statement.setLong(2, message.getRoom().getId());
+				if ( message.getRoom() != null )
+					statement.setLong( 2, message.getRoom().getId() );
 				else
-					statement.setNull(2, Types.BIGINT); // Set room to NULL in the database
+					statement.setNull( 2, Types.BIGINT ); // Set room to NULL in the database
 				
 				statement.setString( 3, message.getText() );
-				statement.setTimestamp(4, Timestamp.valueOf( message.getLocalDateTime() ) );
+				statement.setTimestamp( 4, Timestamp.valueOf( message.getLocalDateTime() ) );
 				ResultSet resultSet = statement.executeQuery();
-				if (resultSet.next())
-					message.setId(resultSet.getLong("id"));
+				if ( resultSet.next() )
+					message.setId( resultSet.getLong("id") );
 				else
 					throw new NotSavedSubEntityException();
 			}
@@ -122,7 +123,6 @@ public class MessagesRepositoryJdbcImpl implements MessagesRepository
 		catch ( SQLException e )
 		{
 			System.out.println( e.getMessage() );
-
 		}
 	}
 }
