@@ -8,7 +8,7 @@ public class NumberWorker
 
 		i = 2;
 		if ( number < 2 )
-			return ( false );
+            throw new IllegalNumberException();
 		while ( i <= ( number / 2 ) )
 		{
 			if ( ( number % i ) == 0 )
@@ -31,7 +31,7 @@ public class NumberWorker
         return ( sum );
     }
 
-    public class IllegalNumberException extends RuntimeException
+    class IllegalNumberException extends RuntimeException
     {
         public IllegalNumberException()
         {
