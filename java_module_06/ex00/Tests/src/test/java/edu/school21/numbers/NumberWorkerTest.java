@@ -1,4 +1,4 @@
-package edu.school21.numbers.NumberWorkerTest;
+package edu.school21.numbers;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -12,23 +12,34 @@ public class NumberWorkerTest
     @ParameterizedTest
     @ValueSource( ints = { 12, 18, 27 } )
     public void isPrimeForPrimes( int n ) throws Exception
-    {}
-
+    {
+        assertTrue(new NumberWorker().isPrime(n));
+    }
+    
     @ParameterizedTest
     @ValueSource( ints = { 12, 18, 27 } )
     public void isPrimeForNotPrimes( int n ) throws Exception
-    {}
-
-    @ParameterizedTest
-    @ValueSource( ints = { 12, 18, 27 } )
-    public void isPrimeForIncorrectNumbers( int n ) throws Exception
-    {}
-
-    @ParameterizedTest
-	@CsvFileSource( resources = "/data.csv", numLinesToSkip = 1 ) throws Exception
-    public void dataSum( int input, int expected )
     {
-        
+        assertFalse(new NumberWorker().isPrime(n));
     }
 
+    @ParameterizedTest
+    @ValueSource( ints = { -12, -18, -27 } )
+    public void isPrimeForIncorrectNumbers( int n ) throws Exception
+    {
+        assertThrows(NumberWorker.IllegalNumberException.class, () -> NumberWorker.isPrime(n));
+    }
+
+    @ParameterizedTest
+	@CsvFileSource( resources = "/data.csv", numLinesToSkip = 1 )
+    public void dataSum( int input, int expected ) throws Exception
+    {
+    	assertEquals(expected, new NumberWorker().digitsSum(input));
+	}
+
+	@Test
+	public void testNegativeSum() throws Exception
+    {
+		assertEquals(-10, new NumberWorker().digitsSum(-154));
+	}
 }

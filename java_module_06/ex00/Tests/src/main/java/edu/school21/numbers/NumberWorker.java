@@ -1,4 +1,4 @@
-package edu.school21.numbers.NumberWorker;
+package edu.school21.numbers;
 
 public class NumberWorker
 {
@@ -31,7 +31,7 @@ public class NumberWorker
         return ( sum );
     }
 
-    class IllegalNumberException extends RuntimeException
+    public class IllegalNumberException extends RuntimeException
     {
         public IllegalNumberException()
         {
