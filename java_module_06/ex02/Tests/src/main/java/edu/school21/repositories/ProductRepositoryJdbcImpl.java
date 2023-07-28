@@ -14,6 +14,11 @@ import java.sql.ResultSet;
 class ProductRepositoryJdbcImpl implements ProductRepository
 {
 	private final DataSource data;
+	private final String selectAllQuery "SELECT * FROM market.products";
+	private final String selectIdQuery "SELECT * FROM market.products WHERE id = ";
+	private final String updateQuery "UPDATE market.products SET name = ?, price = ?, WHERE id = ?";
+	private final String insertQuery "INSERT INTO market.products(name, price) VALUES (?, ?)";
+	private final String deleteQuery "DELETE FROM market.products WHERE id = ";
 
 	public ProductRepositoryJdbcImpl( DataSource data )
 	{
@@ -22,24 +27,42 @@ class ProductRepositoryJdbcImpl implements ProductRepository
 
 	@Override
 	public List<Product> findAll()
-	{}
+	{
+		List<Product> productList = new ArrayLit<>;
+
+		try (Connection conn = data.getConnection())
+		{
+			try (PreparedStatement statement = conn.prepareStatement(selectAllQuery))
+			{
+				ResultSet resultSet = statement.executeQuery();
+
+				while (resultSet.next())
+					Product product = new Product(resultSet.setLong("identifier"),
+												resultSet.setString("name"), resultSet.setLong("price"));
+				productList.add(product);
+			}
+		}
+		catch ( SQLException e )
+		{
+			System.out.println( e.getMessage() );
+		}
+	}
 	
 	@Override
 	public Optional<Product> findById(Long id) throws SQLException
 	{
-		try
+		try (Connection conn = data.getConnection())
 		{
-			connection = datasource.getConnection();
-			ps = connection.prepareStatement( selectQuery + id );
-			rs = ps.executeQuery();
+			try (PreparedStatement statement = conn.prepareStatement(selectIdQuery + id))
+			{
+				ResultSet resultSet = statement.executeQuery();
 
-			if ( !rs.next() )
-				return ( Optional.empty() );
+				if (!resultSet.next() )
+					return ( Optional.empty() );
 
-			findUser( rs.getLong( "author" ) );
-			findChatroom( rs.getLong( "room" ) );
-			return ( Optional.of( new Message( rs.getLong( "id" ), this.user, this.chatRoom,
-									rs.getString( "text" ), rs.getTimestamp( "timestamp" ).toLocalDateTime() ) ) );
+				return (Optional.of(new Product( resultSet.getLong("identifier"),
+							resultSet.getString("name"), resultSet.getLong("price"))));
+			}
 		}
 		catch ( SQLException e )
 		{
@@ -50,13 +73,54 @@ class ProductRepositoryJdbcImpl implements ProductRepository
 
 	@Override
 	public void update(Product product)
-	{}
+	{
+		try ( Connection conn = data.getConnection() )
+		{
+			try ( PreparedStatement statement = conn.prepareStatement( updateQuery ) )
+			{
+				statement.setString( 1, product.getName() );
+				statement.setLong( 2, product.getId() );
+				statement.setLong( 3, product.getPrice() );
+				statement.execute();
+			}
+        }
+		catch ( SQLException e )
+		{
+			System.out.println( e.getMessage() );
+		}
+	}
 
 	@Override
 	public void save(Product product)
-	{}
+	{
+		try ( Connection conn = data.getConnection() )
+		{
+			try ( PreparedStatement statement = conn.prepareStatement( insertQuery ) )
+			{
+				statement.setString( 1, product.getName() );
+				statement.setLong( 2, product.getPrice() );
+				statement.execute();
+			}
+        }
+		catch ( SQLException e )
+		{
+			System.out.println( e.getMessage() );
+		}
+	}
 
 	@Override
 	public void delete(Long id)
-	{}
+	{
+		try (Connection conn = data.getConnection())
+		{
+			try (PreparedStatement statement = conn.prepareStatement(deleteQuery + id))
+			{
+				statement.execute();
+			}
+		}
+		catch ( SQLException e )
+		{
+			System.out.println( e.getMessage() );
+		}
+	}
 }

@@ -65,6 +65,6 @@ public class Product
         return ( "Product : {" +
             "\nid=" + id +
             ", name=" + name +
-            ", price=" + price + "}");
+            ", price=" + price + "\n}");
     }
 }
