@@ -25,6 +25,11 @@ public class Product
         this.name = name;
     }
 
+    public void setPrice( Long price )
+    {
+        this.price = price;
+    }
+
     public Long getId()
     {
         return ( this.id );

@@ -14,11 +14,11 @@ import java.sql.ResultSet;
 class ProductRepositoryJdbcImpl implements ProductRepository
 {
 	private final DataSource data;
-	private final String selectAllQuery "SELECT * FROM market.products";
-	private final String selectIdQuery "SELECT * FROM market.products WHERE id = ";
-	private final String updateQuery "UPDATE market.products SET name = ?, price = ?, WHERE id = ?";
-	private final String insertQuery "INSERT INTO market.products(name, price) VALUES (?, ?)";
-	private final String deleteQuery "DELETE FROM market.products WHERE id = ";
+	private final String selectAllQuery = "SELECT * FROM market.products";
+	private final String selectIdQuery = "SELECT * FROM market.products WHERE id = ";
+	private final String updateQuery = "UPDATE market.products SET name = ?, price = ?, WHERE id = ?";
+	private final String insertQuery = "INSERT INTO market.products(name, price) VALUES (?, ?)";
+	private final String deleteQuery = "DELETE FROM market.products WHERE id = ";
 
 	public ProductRepositoryJdbcImpl( DataSource data )
 	{
@@ -28,7 +28,8 @@ class ProductRepositoryJdbcImpl implements ProductRepository
 	@Override
 	public List<Product> findAll()
 	{
-		List<Product> productList = new ArrayLit<>;
+		List<Product>	productList = new ArrayList<>();
+		Product			product = null;
 
 		try (Connection conn = data.getConnection())
 		{
@@ -37,8 +38,8 @@ class ProductRepositoryJdbcImpl implements ProductRepository
 				ResultSet resultSet = statement.executeQuery();
 
 				while (resultSet.next())
-					Product product = new Product(resultSet.setLong("identifier"),
-												resultSet.setString("name"), resultSet.setLong("price"));
+					product = new Product(resultSet.getLong("identifier"),
+												resultSet.getString("name"), resultSet.getLong("price"));
 				productList.add(product);
 			}
 		}
@@ -46,6 +47,7 @@ class ProductRepositoryJdbcImpl implements ProductRepository
 		{
 			System.out.println( e.getMessage() );
 		}
+		return ( productList );
 	}
 	
 	@Override
@@ -55,6 +57,7 @@ class ProductRepositoryJdbcImpl implements ProductRepository
 		{
 			try (PreparedStatement statement = conn.prepareStatement(selectIdQuery + id))
 			{
+				statement.setLong(1, id);
 				ResultSet resultSet = statement.executeQuery();
 
 				if (!resultSet.next() )

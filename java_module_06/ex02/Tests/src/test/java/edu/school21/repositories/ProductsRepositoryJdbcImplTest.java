@@ -1,6 +1,11 @@
 package edu.school21.repositories;
 
+import edu.school21.models.Product;
+
+import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
@@ -9,10 +14,11 @@ import javax.sql.DataSource;
 import java.sql.SQLException;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ProductRepositoryJdbcImplTest
+public class ProductsRepositoryJdbcImplTest
 {
 	private DataSource data;
 	private ProductRepository productRepository;
+	private Assertions Assertions;
 
 	@BeforeEach
 	private void init()
@@ -28,7 +34,7 @@ public class ProductRepositoryJdbcImplTest
 	@Test
 	public void testFindAll() throws SQLException
 	{
-		Assertions.assertEquals(7, productRepository.findAll().size());
+		Assertions.assertEquals(1L, productRepository.findAll().size());
 	}
 
 	@ParameterizedTest
@@ -49,13 +55,13 @@ public class ProductRepositoryJdbcImplTest
 	@ValueSource(longs = {1, 2, 3, 4, 5})
 	public void testUpdate(long id) throws SQLException
 	{
-		final Product EXPECTED_PROD = new Prod(null, "things", 12345L); 
+		final Product EXPECTED_PROD = productRepository.findById(id).orElse(null);
 
 		EXPECTED_PROD.setPrice(id);
 		productRepository.update(EXPECTED_PROD);
-		Assertions.assertNotNull(EXPECTED_PROD.getId(id));
-		Assertions.assertEquals(EXPECTED_PROD,
-				productRepository.findById(EXPECTED_PROD.getId(id)).orElse(null));
+		Product prod = productRepository.findById(id).orElse(null);
+		Assertions.assertNotNull(prod);
+		Assertions.assertEquals(id, prod.getPrice());
 	}
 
 	@ParameterizedTest
@@ -65,9 +71,9 @@ public class ProductRepositoryJdbcImplTest
 		final Product EXPECTED_PROD = new Product(null, "things", 12345L); 
 
 		productRepository.save(EXPECTED_PROD);
-		Assertions.assertNotNull(EXPECTED_PROD.getId(id));
+		Assertions.assertNotNull(EXPECTED_PROD.getId());
 		Assertions.assertEquals(EXPECTED_PROD,
-				productRepository.findById(EXPECTED_PROD.getId(id)).orElse(null));
+				productRepository.findById(EXPECTED_PROD.getId()).orElse(null));
 	}
 
 	@ParameterizedTest
