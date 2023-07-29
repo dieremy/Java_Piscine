@@ -57,12 +57,13 @@ public class ProductsRepositoryJdbcImplTest
 	{
 		final Product EXPECTED_PROD = productRepository.findById(id).orElse(null);
 
-		EXPECTED_PROD.setPrice(id);
+		EXPECTED_PROD.setPrice(id * 1111); // Update the price with some new value
 		productRepository.update(EXPECTED_PROD);
 		Product prod = productRepository.findById(id).orElse(null);
 		Assertions.assertNotNull(prod);
-		Assertions.assertEquals(id, prod.getPrice());
+		Assertions.assertEquals(EXPECTED_PROD.getPrice(), prod.getPrice()); // Compare the updated price
 	}
+
 
 	@ParameterizedTest
 	@ValueSource(longs = {1, 2, 3, 4, 5})

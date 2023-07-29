@@ -15,10 +15,10 @@ class ProductRepositoryJdbcImpl implements ProductRepository
 {
 	private final DataSource data;
 	private final String selectAllQuery = "SELECT * FROM market.products";
-	private final String selectIdQuery = "SELECT * FROM market.products WHERE id = ";
-	private final String updateQuery = "UPDATE market.products SET name = ?, price = ?, WHERE id = ?";
+	private final String selectIdQuery = "SELECT * FROM market.products WHERE identifier = ?";
+	private final String updateQuery = "UPDATE market.products SET name = ?, price = ?, WHERE identifier = ?";
 	private final String insertQuery = "INSERT INTO market.products(name, price) VALUES (?, ?)";
-	private final String deleteQuery = "DELETE FROM market.products WHERE id = ";
+	private final String deleteQuery = "DELETE FROM market.products WHERE identifier = ";
 
 	public ProductRepositoryJdbcImpl( DataSource data )
 	{
@@ -55,15 +55,15 @@ class ProductRepositoryJdbcImpl implements ProductRepository
 	{
 		try (Connection conn = data.getConnection())
 		{
-			try (PreparedStatement statement = conn.prepareStatement(selectIdQuery + id))
+			try (PreparedStatement statement = conn.prepareStatement(selectIdQuery))
 			{
 				statement.setLong(1, id);
 				ResultSet resultSet = statement.executeQuery();
 
-				if (!resultSet.next() )
+				if (!resultSet.next())
 					return ( Optional.empty() );
 
-				return (Optional.of(new Product( resultSet.getLong("identifier"),
+				return (Optional.of(new Product(resultSet.getLong("identifier"),
 							resultSet.getString("name"), resultSet.getLong("price"))));
 			}
 		}
@@ -82,9 +82,9 @@ class ProductRepositoryJdbcImpl implements ProductRepository
 			try ( PreparedStatement statement = conn.prepareStatement( updateQuery ) )
 			{
 				statement.setString( 1, product.getName() );
-				statement.setLong( 2, product.getId() );
-				statement.setLong( 3, product.getPrice() );
-				statement.execute();
+				statement.setLong( 2, product.getPrice() );
+				statement.setLong( 3, product.getId() );
+				statement.executeUpdate();
 			}
         }
 		catch ( SQLException e )
