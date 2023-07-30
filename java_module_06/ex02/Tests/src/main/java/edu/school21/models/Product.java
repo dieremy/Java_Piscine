@@ -4,20 +4,20 @@ import java.util.Objects;
 
 public class Product
 {
-    private Long	id;
+    private Long	identifier;
     private String	name;
     private Long	price;
 
-    public Product( Long id, String name, Long price )
+    public Product( Long identifier, String name, Long price )
     {
-        this.id = id;
+        this.identifier = identifier;
         this.name = name;
         this.price = price;
     }
 
     public void setId( Long id )
     {
-        this.id = id;
+        this.identifier = identifier;
     }
 
     public void setName( String name )
@@ -32,7 +32,7 @@ public class Product
 
     public Long getId()
     {
-        return ( this.id );
+        return ( this.identifier );
     }
 
     public String getName()
@@ -53,7 +53,7 @@ public class Product
         if ( o == null || getClass() != o.getClass() )
             return ( false );
         Product product = ( Product ) o;
-        return ( Objects.equals( id, product.id )
+        return ( Objects.equals( identifier, product.identifier )
             && Objects.equals( name, product.name )
             && Objects.equals( price, product.price ) ); 
     } 
@@ -61,14 +61,14 @@ public class Product
     @Override
     public int hashCode()
     {
-        return ( Objects.hash( id, name, price ) );
+        return ( Objects.hash( identifier, name, price ) );
     }
 
     @Override
     public String toString()
     {
         return ( "Product : {" +
-            "\nid=" + id +
+            "\nidentifier=" + identifier +
             ", name=" + name +
             ", price=" + price + "\n}");
     }

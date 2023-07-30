@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.List;
 import java.util.ArrayList;
 import javax.sql.DataSource;
+import java.sql.Statement;
 import java.sql.SQLException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,9 +17,10 @@ class ProductRepositoryJdbcImpl implements ProductRepository
 	private final DataSource data;
 	private final String selectAllQuery = "SELECT * FROM market.products";
 	private final String selectIdQuery = "SELECT * FROM market.products WHERE identifier = ?";
-	private final String updateQuery = "UPDATE market.products SET name = ?, price = ?, WHERE identifier = ?";
-	private final String insertQuery = "INSERT INTO market.products(name, price) VALUES (?, ?)";
+	private final String updateQuery = "UPDATE market.products SET name = ?, price = ? WHERE identifier = ?";
+	private final String insertQuery = "insert into market.products (identifier, name, price) values (?, ?, ?)";
 	private final String deleteQuery = "DELETE FROM market.products WHERE identifier = ";
+
 
 	public ProductRepositoryJdbcImpl( DataSource data )
 	{
@@ -85,6 +87,7 @@ class ProductRepositoryJdbcImpl implements ProductRepository
 				statement.setLong( 2, product.getPrice() );
 				statement.setLong( 3, product.getId() );
 				statement.executeUpdate();
+				statement.close();
 			}
         }
 		catch ( SQLException e )
@@ -100,9 +103,11 @@ class ProductRepositoryJdbcImpl implements ProductRepository
 		{
 			try ( PreparedStatement statement = conn.prepareStatement( insertQuery ) )
 			{
-				statement.setString( 1, product.getName() );
-				statement.setLong( 2, product.getPrice() );
-				statement.execute();
+				statement.setLong( 1, product.getId() );
+				statement.setString( 2, product.getName() );
+				statement.setLong( 3, product.getPrice() );
+				statement.executeUpdate();
+				statement.close();
 			}
         }
 		catch ( SQLException e )

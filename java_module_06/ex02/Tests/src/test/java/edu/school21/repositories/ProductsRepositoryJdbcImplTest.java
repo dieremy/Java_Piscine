@@ -50,32 +50,30 @@ public class ProductsRepositoryJdbcImplTest
 	{
 		Assertions.assertFalse(productRepository.findById(id).isPresent());
 	}
-	
-	@ParameterizedTest
-	@ValueSource(longs = {1, 2, 3, 4, 5})
-	public void testUpdate(long id) throws SQLException
-	{
-		final Product EXPECTED_PROD = productRepository.findById(id).orElse(null);
 
-		EXPECTED_PROD.setPrice(id * 1111); // Update the price with some new value
+	@Test
+	public void testUpdate() throws SQLException
+	{
+
+		final Product EXPECTED_PROD = new Product(1L, "updated things", 98765L); 
 		productRepository.update(EXPECTED_PROD);
-		Product prod = productRepository.findById(id).orElse(null);
-		Assertions.assertNotNull(prod);
-		Assertions.assertEquals(EXPECTED_PROD.getPrice(), prod.getPrice()); // Compare the updated price
+		assertEquals(EXPECTED_PROD, productRepository.findById(EXPECTED_PROD.getId()).get());
 	}
+
 
 
 	@ParameterizedTest
 	@ValueSource(longs = {1, 2, 3, 4, 5})
 	public void testSave() throws SQLException
 	{
-		final Product EXPECTED_PROD = new Product(null, "things", 12345L); 
+		final Product EXPECTED_PROD = new Product(6L, "things", 12345L); 
 
 		productRepository.save(EXPECTED_PROD);
 		Assertions.assertNotNull(EXPECTED_PROD.getId());
 		Assertions.assertEquals(EXPECTED_PROD,
 				productRepository.findById(EXPECTED_PROD.getId()).orElse(null));
 	}
+
 
 	@ParameterizedTest
 	@ValueSource(longs = {1, 2, 3, 4, 5})
