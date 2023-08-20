@@ -1,5 +1,7 @@
 package edu.school21.reflection.classes;
 
+import java.util.StringJoiner;
+
 public class User
 {
 	private String	firstName;
@@ -18,13 +20,13 @@ public class User
 		this.hasLicense = hasLicense;
 	}
 
-	public	void	isLicensed()
+	public	boolean	isLicensed()
 	{
-		this.hasLicense = true;
+		return (this.hasLicense);
 	}
 
 	@Override
-	public	toString()
+	public String toString()
 	{
 		return new StringJoiner(", ", User.class.getSimpleName() + "[", "]")
 				.add("firstName='" + firstName + "'")

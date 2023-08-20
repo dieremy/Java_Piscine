@@ -1,15 +1,17 @@
 package edu.school21.reflection.classes;
 
+import java.util.StringJoiner;
+
 public class Car
 {
 	private String	model;
-	private	Long	percentage;
+	private	long	percentage;
 	private	double	price;
 
 	public Car()
 	{}
 
-	public Car(String model, Long percentage, double price)
+	public Car(String model, long percentage, double price)
 	{
 		this.model = model;
 		this.percentage = percentage;
@@ -18,12 +20,12 @@ public class Car
 
 	public double discountedPrice()
 	{
-		this.price = (this.price * this.package) / 100;
+		this.price = (this.price * this.percentage) / 100;
 		return (this.price);
 	}
 
 	@Override
-	public	toString()
+	public String toString()
 	{
 		return new StringJoiner(", ", Class.class.getSimpleName() + "[", "]")
 				.add("model='" + model + "'")
