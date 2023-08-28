@@ -1,11 +1,15 @@
 package edu.school21.processor;
 
 import javax.annotation.processing.*;
+import javax.tools.StandardLocation;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.Element;
 import java.io.*;
 import java.util.*;
+import edu.school21.annotations.HtmlForm;
+import edu.school21.annotations.HtmlInput;
+import edu.school21.form.UserForm;
 
 @SupportedAnnotationTypes({"HtmlForm", "HtmlInput"})
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
@@ -42,7 +46,6 @@ public class HtmlProcessor extends AbstractProcessor
 			htmlBuilder.append("<input type=\"submit\" value=\"Send\">");
 			htmlBuilder.append("</form>");
 
-			// Write HTML to file
 			try (Writer writer = processingEnv.getFiler().createResource(StandardLocation.CLASS_OUTPUT, "", fileName).openWriter())
 			{
 				writer.write(htmlBuilder.toString());
